@@ -41,7 +41,7 @@ export const BackgroundOrbs = () => (
 );
 
 export const ArvenLogo = ({ className = "", priority = false }: { className?: string, priority?: boolean }) => (
-  <div className={`flex flex-col items-center select-none ${className}`}>
+  <div className={`select-none ${className}`}>
     <img 
       src="/logo.png" 
       alt="Arven Assessoria de Marketing" 

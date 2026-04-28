@@ -31,12 +31,12 @@ export default function HeroSection({ scrollYProgress }: any) {
           </div>
         }
       >
-        <div className="max-w-7xl mx-auto w-full z-10 relative flex flex-col-reverse lg:flex-row items-start lg:items-center justify-start lg:justify-between min-h-[90svh] px-6 pt-16 pb-20 lg:py-0 gap-4 lg:gap-0">
+        <div className="max-w-7xl mx-auto w-full z-10 relative flex flex-col-reverse lg:flex-row items-start lg:items-center justify-start lg:justify-between min-h-[100svh] px-6 pt-12 pb-24 lg:py-0 gap-6 lg:gap-0">
           
           {/* Left Content */}
           <div className="text-left w-full lg:flex-1 mt-0">
             <FadeIn delay={0.2} direction="right">
-              <div className="flex flex-col">
+              <div className="flex flex-col items-start">
                 <h1 className="font-display flex flex-col mb-4 md:mb-8">
                   <span className="text-lg md:text-4xl text-arven-yellow font-bold tracking-[0.2em] uppercase mb-0 md:mb-2 leading-none">Proposta</span>
                   <span className="text-5xl md:text-9xl font-black text-white tracking-tighter leading-[0.85] md:leading-none">COMERCIAL</span>
@@ -49,7 +49,7 @@ export default function HeroSection({ scrollYProgress }: any) {
                 <div className="h-1 w-16 md:h-1.5 md:w-24 bg-arven-yellow mb-8 md:mb-16 rounded-full" />
 
                 {/* Icon Grid */}
-                <div className="grid grid-cols-3 gap-2 md:gap-8">
+                <div className="grid grid-cols-3 gap-2 md:gap-8 w-full">
                   <div className="flex flex-col items-start gap-2 md:gap-4">
                     <Target className="text-arven-yellow" size={20} md:size={32} />
                     <div className="text-left">
@@ -77,16 +77,16 @@ export default function HeroSection({ scrollYProgress }: any) {
           </div>
 
           {/* Right Content - Logo Area */}
-          <div className="flex flex-col justify-start lg:justify-end relative w-full lg:flex-1 mb-0 lg:mb-0">
+          <div className="flex flex-col justify-start lg:justify-end relative w-full lg:flex-1 mb-2 md:mb-0">
             <FadeIn delay={0.5} direction="left" className="relative">
-              <div className="absolute inset-0 bg-arven-yellow/10 blur-[40px] md:blur-[100px] rounded-full" />
-              <ArvenLogo className="relative z-10 scale-[0.6] md:scale-150 lg:scale-[1.8] -ml-28 md:ml-0 -mt-10 md:mt-0" priority={true} />
+              <div className="absolute inset-0 bg-arven-yellow/10 blur-[40px] md:blur-[100px] rounded-full -left-10" />
+              <ArvenLogo className="relative z-10 scale-[0.6] md:scale-150 lg:scale-[1.8] origin-left -mt-8 md:mt-0" priority={true} />
             </FadeIn>
           </div>
           
           <motion.div 
             style={{ opacity: useTransform(scrollYProgress, [0, 0.05], [1, 0]) }}
-            className="absolute bottom-20 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none"
+            className="absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none"
           >
             <FadeIn delay={1.5} direction="down">
               <div className="flex flex-col items-center">
@@ -94,7 +94,7 @@ export default function HeroSection({ scrollYProgress }: any) {
                 <motion.div 
                   animate={{ y: [0, 8, 0] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                  className="w-7 h-11 rounded-full border-2 border-white/40 flex justify-center p-1"
+                  className="w-7 h-11 rounded-full border-2 border-white/20 flex justify-center p-1"
                 >
                   <motion.div 
                     animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
