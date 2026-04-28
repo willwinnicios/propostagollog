@@ -115,7 +115,7 @@ const FadeIn = ({ children, delay = 0, direction = 'up', className = "" }: { chi
   );
 };
 
-const Section = ({ children, className = "", id = "" }: { children: React.ReactNode, className?: string, id?: string }) => {
+const Section = ({ children, bg, className = "", id = "" }: { children: React.ReactNode, bg?: React.ReactNode, className?: string, id?: string }) => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -125,6 +125,7 @@ const Section = ({ children, className = "", id = "" }: { children: React.ReactN
 
   return (
     <section id={id} ref={ref} className={`min-h-[100svh] py-20 px-4 md:py-24 md:px-12 lg:px-24 flex flex-col justify-center relative overflow-hidden ${className}`}>
+      {bg && <div className="absolute inset-0 z-0">{bg}</div>}
       <motion.div style={{ y }} className="relative z-10 h-full w-full flex flex-col justify-center">
         {children}
       </motion.div>
@@ -253,28 +254,30 @@ export default function App() {
       <BackgroundOrbs />
       
       {/* 1. HERO SECTION (NEW PREMIUM DESIGN) */}
-      <Section className="relative overflow-hidden min-h-screen bg-[#0d0d0d] !p-0">
-        {/* Background Image - Responsive */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-           {/* Desktop Image */}
-           <img 
-             src="/capa_fundo_topo.webp" 
-             alt="Capa Fundo Topo" 
-             className="hidden md:block w-full h-full object-cover opacity-90"
-             fetchPriority="high"
-             decoding="async"
-           />
-           {/* Mobile Image */}
-           <img 
-             src="/capa_fundo_mobile.webp" 
-             alt="Capa Fundo Mobile" 
-             className="block md:hidden w-full h-full object-cover opacity-90"
-             fetchPriority="high"
-             decoding="async"
-           />
-           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0d0d0d]/50 to-[#0d0d0d] pointer-events-none" />
-        </div>
-
+      <Section 
+        className="relative overflow-hidden min-h-screen bg-[#0d0d0d] !p-0"
+        bg={
+          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            {/* Desktop Image */}
+            <img 
+              src="/capa_fundo_topo.webp" 
+              alt="Capa Fundo Topo" 
+              className="hidden md:block w-full h-full object-cover opacity-90"
+              fetchPriority="high"
+              decoding="async"
+            />
+            {/* Mobile Image */}
+            <img 
+              src="/capa_fundo_mobile.webp" 
+              alt="Capa Fundo Mobile" 
+              className="block md:hidden w-full h-full object-cover opacity-90"
+              fetchPriority="high"
+              decoding="async"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0d0d0d]/50 to-[#0d0d0d] pointer-events-none" />
+          </div>
+        }
+      >
         <div className="max-w-7xl mx-auto w-full z-10 relative flex flex-col lg:flex-row items-center justify-between min-h-screen px-6 py-20 lg:py-0 gap-16 lg:gap-0">
           
           {/* Left Content */}
@@ -351,8 +354,7 @@ export default function App() {
       </Section>
 
       {/* 2. THE STATUS QUO / PERSUASION SECTION */}
-      <Section id="desafio" className="bg-[#f0f2f5] text-black relative border-t border-black/5 selection:bg-gollog selection:text-white overflow-hidden">
-        <LightDepthBackground />
+      <Section id="desafio" className="bg-[#f0f2f5] text-black relative border-t border-black/5 selection:bg-gollog selection:text-white overflow-hidden" bg={<LightDepthBackground />}>
         <div className="max-w-6xl mx-auto w-full relative z-10">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div className="relative z-10">
@@ -410,8 +412,7 @@ export default function App() {
       </Section>
 
       {/* 3. THE STRATEGY MACHINE (FUNNEL) */}
-      <Section className="bg-[#0d0d0d] text-white relative border-t border-white/5 selection:bg-gollog selection:text-white">
-        <GridBackground color="rgba(255, 90, 0, 0.05)" />
+      <Section className="bg-[#0d0d0d] text-white relative border-t border-white/5 selection:bg-gollog selection:text-white" bg={<GridBackground color="rgba(255, 90, 0, 0.05)" />}>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-gollog/5 blur-[200px] rounded-full pointer-events-none" />
         
         <div className="max-w-7xl mx-auto w-full relative z-10">
@@ -462,8 +463,7 @@ export default function App() {
       </Section>
 
       {/* 4. DELIVERABLES (Bento Grid) */}
-      <Section className="bg-[#f0f2f5] text-black relative border-t border-black/5 selection:bg-gollog selection:text-white overflow-hidden">
-        <LightDepthBackground />
+      <Section className="bg-[#f0f2f5] text-black relative border-t border-black/5 selection:bg-gollog selection:text-white overflow-hidden" bg={<LightDepthBackground />}>
         <div className="max-w-7xl mx-auto w-full relative z-10">
           <FadeIn className="mb-16">
             <div className="flex items-center gap-4 mb-4">
@@ -645,8 +645,7 @@ export default function App() {
       </Section>
 
       {/* 4.5. THE SHARED GOAL - 400K REVENUE */}
-      <Section className="bg-[#0d0d0d] text-white relative border-t border-white/5 selection:bg-gollog selection:text-white">
-        <GridBackground color="rgba(255, 90, 0, 0.05)" />
+      <Section className="bg-[#0d0d0d] text-white relative border-t border-white/5 selection:bg-gollog selection:text-white" bg={<GridBackground color="rgba(255, 90, 0, 0.05)" />}>
         <div className="max-w-6xl mx-auto w-full relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <FadeIn>
@@ -705,8 +704,7 @@ export default function App() {
       </Section>
 
       {/* 4.5. THE VALUE ANCHOR */}
-      <Section className="bg-[#0d0d0d] text-white relative !min-h-[70svh] border-t border-white/5 selection:bg-gollog selection:text-white">
-        <GridBackground color="rgba(255, 90, 0, 0.05)" />
+      <Section className="bg-[#0d0d0d] text-white relative !min-h-[70svh] border-t border-white/5 selection:bg-gollog selection:text-white" bg={<GridBackground color="rgba(255, 90, 0, 0.05)" />}>
         <div className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_at_center,_transparent_0%,_gollog_100%)]" />
         <div className="max-w-6xl mx-auto w-full relative z-10 text-center flex flex-col items-center">
           <FadeIn>
@@ -731,8 +729,7 @@ export default function App() {
       </Section>
 
       {/* 5. INVESTMENT & TERMS - THE BIG CLOSING */}
-      <Section className="bg-[#f8f9fa] text-black relative border-t border-black/5 overflow-hidden selection:bg-gollog selection:text-white">
-        <GridBackground color="rgba(0, 0, 0, 0.02)" />
+      <Section className="bg-[#f0f2f5] text-black relative border-t border-black/5 overflow-hidden selection:bg-gollog selection:text-white" bg={<LightDepthBackground />}>
         <div className="max-w-6xl mx-auto w-full relative z-10">
           <FadeIn>
             <div className="text-center mb-16 md:mb-20">
