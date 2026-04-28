@@ -137,7 +137,7 @@ export const Counter = ({ value, duration = 2.5 }: { value: number, duration?: n
   const count = useMotionValue(0);
   const rounded = useTransform(count, (latest) => Math.round(latest).toLocaleString('pt-BR'));
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true });
 
   useEffect(() => {
     if (isInView) {
@@ -219,7 +219,7 @@ export const RevenueChart = () => {
             <motion.div
               initial={{ height: "0%" }}
               whileInView={{ height: `${(item.value / 400) * 100}%` }}
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: true }}
               transition={{ duration: 1.8, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
               className={`w-full max-w-[45px] rounded-t-xl md:rounded-t-2xl relative transition-all duration-500 group-hover:scale-x-110 ${item.goal ? 'bg-gradient-to-t from-gollog to-[#ff9000] shadow-[0_0_30px_rgba(255,90,0,0.4)]' : item.current ? 'bg-slate-900 shadow-xl' : 'bg-slate-400/30'}`}
             >
