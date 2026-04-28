@@ -29,14 +29,49 @@ export default function App() {
       {/* Floating Header (Menu) */}
       <motion.header 
         style={{ opacity: headerOpacity, y: headerY }}
-        className="fixed top-0 left-0 right-0 z-[90] bg-[#0d0d0d]/80 backdrop-blur-lg border-b border-white/10 px-6 py-3 flex items-center justify-between"
+        className="fixed top-4 left-4 right-4 md:left-8 md:right-8 z-[90] rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
       >
-        <div className="flex items-center gap-4">
-          <img src="/logo.png" alt="Arven" className="h-8 md:h-10 object-contain" />
-          <div className="h-6 w-px bg-white/20 hidden md:block" />
-          <span className="text-xs md:text-sm font-bold uppercase tracking-widest text-arven-yellow">Proposta Comercial</span>
+        {/* Animated Glassmorphism Background */}
+        <div className="absolute inset-0 bg-[#0d0d0d]/60 backdrop-blur-xl" />
+        <motion.div 
+          animate={{ 
+            x: [0, 50, -50, 0],
+            opacity: [0.2, 0.4, 0.2]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-full -left-full w-[300%] h-[300%] bg-[radial-gradient(circle_at_center,rgba(255,90,0,0.15)_0%,transparent_50%)] pointer-events-none"
+        />
+        
+        <div className="relative z-10 px-6 py-3 md:py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3 md:gap-5">
+            <div className="relative group">
+              <img 
+                src="/logo.png" 
+                alt="Arven" 
+                className="h-7 md:h-10 object-contain brightness-0 invert" 
+              />
+              <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-arven-yellow to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+            </div>
+            <div className="h-6 w-px bg-white/20" />
+            <div className="flex flex-col">
+              <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-arven-yellow leading-none">Proposta</span>
+              <span className="text-[12px] md:text-sm font-bold uppercase tracking-tight text-white mt-0.5">Comercial</span>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-4 md:gap-8">
+            <div className="hidden lg:flex flex-col items-end">
+              <span className="text-[8px] font-black text-white/40 uppercase tracking-widest">Projeto</span>
+              <span className="text-[10px] font-bold text-white uppercase tracking-wider">GOLLOG B2B</span>
+            </div>
+            <a 
+              href="#investimento" 
+              className="bg-arven-yellow hover:bg-white text-black px-4 py-2 md:px-6 md:py-2.5 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,144,0,0.4)] active:scale-95"
+            >
+              Fechar Agora
+            </a>
+          </div>
         </div>
-        <div className="text-[10px] md:text-xs font-medium text-white/40 uppercase tracking-widest hidden sm:block">GOLLOG B2B</div>
       </motion.header>
 
       <BackgroundOrbs />
