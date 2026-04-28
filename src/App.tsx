@@ -100,12 +100,14 @@ export default function App() {
             className="w-full h-full object-cover grayscale opacity-50 mix-blend-screen"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/80 to-black" />
-          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gollog/20 blur-[150px] rounded-full translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gollog/30 blur-[150px] rounded-full translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gollog/20 blur-[150px] rounded-full -translate-x-1/2 translate-y-1/2" />
         </motion.div>
 
         <motion.div style={{ y: yContent }} className="max-w-6xl mx-auto w-full z-10 relative print:mt-0 flex flex-col items-center justify-center min-h-[70svh]">
-          <FadeIn delay={0.1} direction="down" className="mb-10 lg:mb-12">
-            <ArvenLogo />
+          <FadeIn delay={0.1} direction="down" className="mb-10 lg:mb-12 relative">
+            <div className="absolute inset-0 bg-gollog/20 blur-[60px] rounded-full scale-150 animate-pulse" />
+            <ArvenLogo className="relative z-10" />
           </FadeIn>
           
           <FadeIn delay={0.4} direction="up" className="flex flex-col items-center text-center">
@@ -147,7 +149,7 @@ export default function App() {
                 </div>
                 <h2 className="font-display text-4xl md:text-5xl lg:text-7xl font-bold mb-8 leading-[1.05] tracking-tight">
                   Seu frete está <br/>
-                  <span className="text-[#333]">invisível?</span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-gollog via-gollog-light to-white drop-shadow-[0_0_15px_rgba(255,90,0,0.3)]">invisível?</span>
                 </h2>
                 <div className="space-y-6 text-xl text-slate-400 font-light leading-relaxed mb-10">
                   <p>
@@ -371,8 +373,9 @@ export default function App() {
           <div className="grid lg:grid-cols-12 gap-8 items-center max-w-6xl mx-auto relative">
             
             {/* The Price Card */}
-            <FadeIn delay={0.2} direction="up" className="lg:col-span-7">
-              <div className="bg-[#0a0a0a]/80 backdrop-blur-2xl border border-white/15 p-10 md:p-16 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
+            <FadeIn delay={0.2} direction="up" className="lg:col-span-7 relative group">
+              <div className="absolute inset-0 bg-gollog/20 blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="bg-[#0a0a0a]/80 backdrop-blur-2xl border border-white/15 p-10 md:p-16 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gollog to-gollog-light" />
                 
                 <div className="mb-10">
