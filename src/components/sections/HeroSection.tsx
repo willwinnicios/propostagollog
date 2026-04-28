@@ -31,15 +31,16 @@ export default function HeroSection({ scrollYProgress }: any) {
           </div>
         }
       >
-        <div className="max-w-7xl mx-auto w-full z-10 relative flex flex-col items-center justify-start min-h-[95svh] px-6 pt-10 pb-20 lg:flex-row lg:items-center lg:justify-between lg:py-0">
+        <div className="max-w-7xl mx-auto w-full z-10 relative flex flex-col lg:flex-row items-center justify-center lg:justify-between min-h-[95svh] px-6 pt-10 pb-20 lg:py-0">
           
+          {/* Main Content Column */}
           <div className="text-center w-full lg:text-left lg:flex-1">
             <FadeIn delay={0.2} direction="up">
               <div className="flex flex-col items-center lg:items-start">
                 
-                {/* Logo - Moved higher and centered */}
-                <div className="mb-8 lg:mb-16">
-                  <ArvenLogo className="scale-[0.55] md:scale-125 lg:scale-[1.8]" priority={true} />
+                {/* Mobile-only Logo: Hidden on desktop */}
+                <div className="mb-8 lg:hidden">
+                  <ArvenLogo className="scale-[0.55] md:scale-125" priority={true} />
                 </div>
 
                 <h1 className="font-display flex flex-col mb-4 md:mb-8">
@@ -81,7 +82,12 @@ export default function HeroSection({ scrollYProgress }: any) {
             </FadeIn>
           </div>
           
-          <div className="hidden lg:block lg:flex-1" />
+          {/* Desktop-only Logo Column: Hidden on mobile */}
+          <div className="hidden lg:flex lg:flex-1 justify-end items-center">
+             <FadeIn delay={0.4} direction="left">
+                <ArvenLogo className="scale-[1.8] origin-right" priority={true} />
+             </FadeIn>
+          </div>
           
           <motion.div 
             style={{ opacity: useTransform(scrollYProgress, [0, 0.05], [1, 0]) }}
