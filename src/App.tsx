@@ -47,8 +47,8 @@ export default function App() {
           <HeroSection scrollYProgress={scrollYProgress} />
         </div>
 
-        {/* Following sections scroll over the Hero with higher z-index */}
-        <div className="relative z-10 shadow-[0_-50px_100px_rgba(0,0,0,0.5)]">
+        {/* Following sections scroll over the Hero with higher z-index and rounded corners */}
+        <div className="relative z-10 shadow-[0_-50px_100px_rgba(0,0,0,0.5)] rounded-t-[2.5rem] md:rounded-t-[5rem] overflow-hidden bg-[#0d0d0d]">
           <StatusQuoSection />
           <StrategySection />
           <DeliverablesSection />
