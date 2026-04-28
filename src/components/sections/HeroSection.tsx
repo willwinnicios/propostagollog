@@ -31,43 +31,45 @@ export default function HeroSection({ scrollYProgress }: any) {
           </div>
         }
       >
-        <div className="max-w-7xl mx-auto w-full z-10 relative flex flex-col-reverse lg:flex-row items-start lg:items-center justify-between min-h-screen px-6 py-8 lg:py-0 gap-2 lg:gap-0">
+        <div className="max-w-7xl mx-auto w-full z-10 relative flex flex-col-reverse lg:flex-row items-start lg:items-center justify-center lg:justify-between min-h-screen px-6 py-12 lg:py-0 gap-4 lg:gap-0">
           
           {/* Left Content */}
-          <div className="flex-1 text-left w-full mt-4 lg:mt-0">
+          <div className="text-left w-full lg:flex-1">
             <FadeIn delay={0.2} direction="right">
-              <h1 className="font-display flex flex-col mb-4 md:mb-8">
-                <span className="text-xl md:text-4xl text-arven-yellow font-bold tracking-[0.2em] uppercase mb-1 md:mb-2">Proposta</span>
-                <span className="text-5xl md:text-9xl font-black text-white tracking-tighter leading-none">COMERCIAL</span>
-              </h1>
-              
-              <p className="text-lg md:text-3xl text-slate-300 font-light mb-6 md:mb-12 max-w-xl leading-relaxed">
-                Soluções estratégicas que <br className="hidden md:block"/> <span className="text-white font-medium">impulsionam resultados.</span>
-              </p>
+              <div className="flex flex-col">
+                <h1 className="font-display flex flex-col mb-4 md:mb-8">
+                  <span className="text-lg md:text-4xl text-arven-yellow font-bold tracking-[0.2em] uppercase mb-0 md:mb-2 leading-none">Proposta</span>
+                  <span className="text-5xl md:text-9xl font-black text-white tracking-tighter leading-[0.85] md:leading-none">COMERCIAL</span>
+                </h1>
+                
+                <p className="text-lg md:text-3xl text-slate-300 font-light mb-6 md:mb-12 max-w-xl leading-relaxed">
+                  Soluções estratégicas que <br className="hidden md:block"/> <span className="text-white font-medium">impulsionam resultados.</span>
+                </p>
 
-              <div className="h-1 w-16 md:h-1.5 md:w-24 bg-arven-yellow mb-8 md:mb-16 rounded-full" />
+                <div className="h-1 w-16 md:h-1.5 md:w-24 bg-arven-yellow mb-8 md:mb-16 rounded-full" />
 
-              {/* Icon Grid */}
-              <div className="grid grid-cols-3 gap-2 md:gap-8">
-                <div className="flex flex-col items-start gap-3 md:gap-4">
-                  <Target className="text-arven-yellow" size={24} md:size={32} />
-                  <div className="text-left">
-                    <p className="text-[8px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Estratégia</p>
-                    <p className="text-[9px] md:text-xs font-bold text-white uppercase tracking-wider">Personalizada</p>
+                {/* Icon Grid */}
+                <div className="grid grid-cols-3 gap-2 md:gap-8">
+                  <div className="flex flex-col items-start gap-2 md:gap-4">
+                    <Target className="text-arven-yellow" size={20} md:size={32} />
+                    <div className="text-left">
+                      <p className="text-[7px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Estratégia</p>
+                      <p className="text-[9px] md:text-xs font-bold text-white uppercase tracking-wider">Personalizada</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col items-start gap-3 md:gap-4 border-l border-white/10 pl-3 md:pl-8">
-                  <TrendingUp className="text-arven-yellow" size={24} md:size={32} />
-                  <div className="text-left">
-                    <p className="text-[8px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Foco em</p>
-                    <p className="text-[9px] md:text-xs font-bold text-white uppercase tracking-wider">Resultados</p>
+                  <div className="flex flex-col items-start gap-2 md:gap-4 border-l border-white/10 pl-3 md:pl-8">
+                    <TrendingUp className="text-arven-yellow" size={20} md:size={32} />
+                    <div className="text-left">
+                      <p className="text-[7px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Foco em</p>
+                      <p className="text-[9px] md:text-xs font-bold text-white uppercase tracking-wider">Resultados</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col items-start gap-3 md:gap-4 border-l border-white/10 pl-3 md:pl-8">
-                  <Handshake className="text-arven-yellow" size={24} md:size={32} />
-                  <div className="text-left">
-                    <p className="text-[8px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Parceria e</p>
-                    <p className="text-[9px] md:text-xs font-bold text-white uppercase tracking-wider">Confiança</p>
+                  <div className="flex flex-col items-start gap-2 md:gap-4 border-l border-white/10 pl-3 md:pl-8">
+                    <Handshake className="text-arven-yellow" size={20} md:size={32} />
+                    <div className="text-left">
+                      <p className="text-[7px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Parceria e</p>
+                      <p className="text-[9px] md:text-xs font-bold text-white uppercase tracking-wider">Confiança</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -75,10 +77,10 @@ export default function HeroSection({ scrollYProgress }: any) {
           </div>
 
           {/* Right Content - Logo Area */}
-          <div className="flex-1 flex justify-start lg:justify-end relative w-full mb-2 lg:mb-0">
+          <div className="flex flex-col justify-start lg:justify-end relative w-full lg:flex-1 mb-2 lg:mb-0">
             <FadeIn delay={0.5} direction="left" className="relative">
-              <div className="absolute inset-0 bg-arven-yellow/10 blur-[80px] md:blur-[100px] rounded-full" />
-              <ArvenLogo className="relative z-10 scale-75 md:scale-150 lg:scale-[1.8] -ml-16 md:ml-0" priority={true} />
+              <div className="absolute inset-0 bg-arven-yellow/10 blur-[60px] md:blur-[100px] rounded-full" />
+              <ArvenLogo className="relative z-10 scale-75 md:scale-150 lg:scale-[1.8] -ml-20 md:ml-0" priority={true} />
             </FadeIn>
           </div>
           
