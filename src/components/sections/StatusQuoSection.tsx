@@ -34,7 +34,7 @@ export default function StatusQuoSection({ scrollYProgress }: any) {
             <div className="relative">
               <FadeIn delay={0.3} direction="left">
                 <div className="grid gap-6">
-                  <div className="bg-white border border-black/5 p-8 rounded-[2rem] flex flex-col gap-4 group hover:border-gollog/30 transition-colors shadow-sm">
+                  <div className="bg-white border border-black/5 p-6 md:p-6 rounded-[2rem] flex flex-col gap-4 group hover:border-gollog/30 transition-colors shadow-sm">
                     <TrendingUp className="text-gollog" size={32} />
                     <div>
                       <h4 className="font-display text-3xl font-bold text-black">Posicionamento</h4>
@@ -42,7 +42,7 @@ export default function StatusQuoSection({ scrollYProgress }: any) {
                     </div>
                   </div>
                   
-                  <div className="bg-white border border-black/5 p-8 rounded-[2rem] flex flex-col gap-4 group hover:border-gollog/30 transition-colors shadow-sm lg:translate-x-12">
+                  <div className="bg-white border border-black/5 p-6 rounded-[2rem] flex flex-col gap-4 group hover:border-gollog/30 transition-colors shadow-sm lg:translate-x-12">
                     <Zap className="text-gollog" size={32} />
                     <div>
                       <h4 className="font-display text-3xl font-bold text-black">Velocidade Híbrida</h4>
@@ -50,7 +50,7 @@ export default function StatusQuoSection({ scrollYProgress }: any) {
                     </div>
                   </div>
 
-                  <div className="bg-white border border-black/5 p-8 rounded-[2rem] flex flex-col gap-4 group hover:border-gollog/30 transition-colors shadow-sm">
+                  <div className="bg-white border border-black/5 p-6 md:p-6 rounded-[2rem] flex flex-col gap-4 group hover:border-gollog/30 transition-colors shadow-sm">
                     <Target className="text-gollog" size={32} />
                     <div>
                       <h4 className="font-display text-3xl font-bold text-black">Conversão</h4>

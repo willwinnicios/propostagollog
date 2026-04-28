@@ -18,7 +18,7 @@ export default function ComparisonSection({ scrollYProgress }: any) {
 
           <div className="grid md:grid-cols-2 gap-8">
              <FadeIn delay={0.2} direction="right">
-                <div className="bg-white border border-black/5 p-8 md:p-12 rounded-[3rem] h-full relative overflow-hidden group">
+                <div className="bg-white border border-black/5 p-6 md:p-12 rounded-[3rem] h-full relative overflow-hidden group">
                    <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                       <Zap size={120} strokeWidth={1} />
                    </div>
@@ -47,7 +47,7 @@ export default function ComparisonSection({ scrollYProgress }: any) {
              </FadeIn>
 
              <FadeIn delay={0.4} direction="left">
-                <div className="bg-[#0d0d0d] text-white p-8 md:p-12 rounded-[3rem] h-full relative overflow-hidden group border border-white/5 shadow-2xl">
+                <div className="bg-[#0d0d0d] text-white p-6 md:p-12 rounded-[3rem] h-full relative overflow-hidden group border border-white/5 shadow-2xl">
                    <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
                       <Rocket size={120} strokeWidth={1} className="text-gollog" />
                    </div>

@@ -89,7 +89,7 @@ export const SpotlightCard = ({ children, className = "", delay = 0 }: { childre
           background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255, 90, 0, 0.15), transparent 40%)`,
         }}
       />
-      <div className="relative z-10 p-8 md:p-10 h-full flex flex-col">{children}</div>
+      <div className="relative z-10 p-6 md:p-10 h-full flex flex-col">{children}</div>
     </motion.div>
   );
 };
@@ -124,7 +124,7 @@ export const Section = ({ children, bg, className = "", id = "" }: { children: R
   const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
 
   return (
-    <section id={id} ref={ref} className={`min-h-[100svh] py-20 px-4 md:py-24 md:px-12 lg:px-24 flex flex-col justify-center relative overflow-hidden ${className}`}>
+    <section id={id} ref={ref} className={`min-h-[100svh] py-20 px-6 md:py-24 md:px-12 lg:px-24 flex flex-col justify-center relative overflow-hidden ${className}`}>
       {bg && <div className="absolute inset-0 z-0">{bg}</div>}
       <motion.div style={{ y }} className="relative z-10 h-full w-full flex flex-col justify-center">
         {children}

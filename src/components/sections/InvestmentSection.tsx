@@ -16,10 +16,10 @@ export default function InvestmentSection({ scrollYProgress }: any) {
                 <span className="font-display font-bold tracking-widest text-slate-400 uppercase text-sm">O Acordo Comercial</span>
                 <div className="h-[2px] w-8 bg-gollog" />
               </div>
-              <h2 className="font-display text-4xl md:text-7xl lg:text-[5.5rem] font-black mb-6 tracking-tight">
+              <h2 className="font-display text-4xl md:text-7xl lg:text-[5.5rem] font-black mb-6 tracking-tight leading-tight">
                 Variação <span className="italic text-gollog pr-2">Assimétrica.</span>
               </h2>
-              <p className="text-lg md:text-2xl text-slate-500 font-light max-w-3xl mx-auto px-4 leading-relaxed">
+              <p className="text-lg md:text-2xl text-slate-500 font-light max-w-3xl mx-auto leading-relaxed">
                 Investir R$ 2.500,00 para buscar um faturamento de <strong className="text-black">R$ 400.000,00</strong> não é um custo, é a decisão mais lógica que você tomará este ano. O risco de ficar onde você está hoje é infinitamente maior.
               </p>
             </div>
@@ -30,7 +30,7 @@ export default function InvestmentSection({ scrollYProgress }: any) {
             {/* The Price Card */}
             <FadeIn delay={0.2} direction="up" className="lg:col-span-7 relative group">
               <div className="absolute inset-0 bg-gollog/10 blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              <div className="bg-white border border-black/5 p-8 md:p-16 rounded-[2.5rem] shadow-xl relative overflow-hidden h-full flex flex-col">
+              <div className="bg-white border border-black/5 p-6 md:p-16 rounded-[2.5rem] shadow-xl relative overflow-hidden h-full flex flex-col">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gollog to-gollog/50" />
                 
                 <div className="mb-10">
@@ -38,11 +38,11 @@ export default function InvestmentSection({ scrollYProgress }: any) {
                      <CheckCircle2 size={16} className="text-gollog"/> Pacote Agency Premium
                   </p>
                   <div className="flex items-start gap-2">
-                    <span className="text-3xl font-bold text-gollog mt-2 md:mt-4">R$</span>
-                    <span className="font-display text-[4.5rem] md:text-[7.5rem] font-black tracking-tighter leading-none text-black">
+                    <span className="text-2xl font-bold text-gollog mt-2 md:mt-4">R$</span>
+                    <span className="font-display text-[3.8rem] md:text-[7.5rem] font-black tracking-tighter leading-none text-black">
                       <Counter value={2500} />
                     </span>
-                    <span className="text-xl md:text-2xl text-slate-400 font-light self-end pb-2 md:pb-6 ml-2">/mês</span>
+                    <span className="text-lg md:text-2xl text-slate-400 font-light self-end pb-2 md:pb-6 ml-2">/mês</span>
                   </div>
                 </div>
 

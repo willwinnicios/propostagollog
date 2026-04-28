@@ -15,12 +15,12 @@ export default function ValueAnchorSection({ scrollYProgress }: any) {
               <Target size={48} className="text-gollog" />
             </div>
             
-            <h2 className="font-display text-2xl md:text-3xl font-bold leading-[1.1] text-slate-500 mb-6 uppercase tracking-widest">
+            <h2 className="font-display text-lg md:text-3xl font-bold leading-[1.1] text-slate-500 mb-6 md:mb-8 uppercase tracking-widest">
               Uma reflexão rápida para o seu negócio:
             </h2>
             
-            <h3 className="font-display text-3xl md:text-5xl lg:text-6xl font-black leading-[1.2] mb-8 text-white max-w-6xl mx-auto tracking-tight">
-              "Se eu te entregasse de <span className="text-gollog italic">10 a 20 empresas</span> interessadas na sua solução <br className="hidden md:block" />
+            <h3 className="font-display text-2xl md:text-5xl lg:text-6xl font-black leading-[1.2] md:leading-[1.1] mb-8 text-white max-w-6xl mx-auto tracking-tight">
+              "Se eu te entregasse de <span className="text-gollog italic text-3xl md:text-6xl">10 a 20 empresas</span> interessadas na sua solução <br className="hidden md:block" />
               <span className="relative inline-block">
                 <span className="relative z-10 text-gollog px-1">por mês</span>
                 <span className="absolute bottom-1 left-0 w-full h-3 bg-gollog/20 rounded-sm" />
