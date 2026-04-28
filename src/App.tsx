@@ -9,7 +9,7 @@ const ArvenLogo = ({ className = "" }: { className?: string }) => (
     <img 
       src="/logo.png" 
       alt="Arven Assessoria de Marketing" 
-      className="h-48 md:h-56 object-contain drop-shadow-2xl mix-blend-screen" 
+      className="h-48 md:h-56 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] brightness-110" 
     />
   </div>
 );
@@ -85,7 +85,6 @@ export default function App() {
 
   return (
     <div className="bg-black text-slate-50 font-sans selection:bg-gollog selection:text-white overflow-x-hidden relative">
-      <div className="absolute inset-0 bg-noise z-50 pointer-events-none" />
       
       {/* 1. HERO SECTION (CINEMATIC) */}
       <Section className="relative overflow-hidden items-start md:items-center text-left md:text-center justify-center">
