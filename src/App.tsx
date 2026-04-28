@@ -32,12 +32,15 @@ const BackgroundOrbs = () => (
   </div>
 );
 
-const ArvenLogo = ({ className = "" }: { className?: string }) => (
+const ArvenLogo = ({ className = "", priority = false }: { className?: string, priority?: boolean }) => (
   <div className={`flex flex-col items-center select-none ${className}`}>
     <img 
-      src="/logo.png" 
+      src="/logo.webp" 
       alt="Arven Assessoria de Marketing" 
       className="h-64 md:h-80 lg:h-96 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] brightness-110" 
+      loading={priority ? "eager" : "lazy"}
+      decoding={priority ? "sync" : "async"}
+      fetchPriority={priority ? "high" : "auto"}
     />
   </div>
 );
@@ -247,15 +250,19 @@ export default function App() {
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
            {/* Desktop Image */}
            <img 
-             src="/capa_fundo_topo.png" 
+             src="/capa_fundo_topo.webp" 
              alt="Capa Fundo Topo" 
              className="hidden md:block w-full h-full object-cover opacity-90"
+             fetchPriority="high"
+             decoding="async"
            />
            {/* Mobile Image */}
            <img 
-             src="/capa_fundo_mobile.png" 
+             src="/capa_fundo_mobile.webp" 
              alt="Capa Fundo Mobile" 
              className="block md:hidden w-full h-full object-cover opacity-90"
+             fetchPriority="high"
+             decoding="async"
            />
            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0d0d0d]/50 to-[#0d0d0d] pointer-events-none" />
         </div>
@@ -307,7 +314,7 @@ export default function App() {
           <div className="flex-1 flex justify-center lg:justify-end relative">
             <FadeIn delay={0.5} direction="left" className="relative">
               <div className="absolute inset-0 bg-arven-yellow/10 blur-[100px] rounded-full" />
-              <ArvenLogo className="relative z-10 scale-110 md:scale-150 lg:scale-[1.8]" />
+              <ArvenLogo className="relative z-10 scale-110 md:scale-150 lg:scale-[1.8]" priority={true} />
             </FadeIn>
           </div>
           
