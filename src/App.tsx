@@ -14,9 +14,9 @@ const InvestmentSection = React.lazy(() => import('./components/sections/Investm
 const FinalCtaSection = React.lazy(() => import('./components/sections/FinalCtaSection'));
 
 export default function App() {
-  const { scrollYProgress } = useScroll();
-  const headerOpacity = useTransform(scrollYProgress, [0, 0.05, 0.1], [0, 0, 1]);
-  const headerY = useTransform(scrollYProgress, [0, 0.05, 0.1], [-20, -20, 0]);
+  const { scrollYProgress, scrollY } = useScroll();
+  const headerOpacity = useTransform(scrollY, [0, 100], [0, 1]);
+  const headerY = useTransform(scrollY, [0, 100], [-20, 0]);
 
   return (
     <div className="bg-[#0d0d0d] text-slate-50 font-sans selection:bg-gollog selection:text-white overflow-x-hidden relative">
