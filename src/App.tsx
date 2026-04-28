@@ -243,15 +243,14 @@ export default function App() {
       
       {/* 1. HERO SECTION (NEW PREMIUM DESIGN) */}
       <Section className="relative overflow-hidden min-h-screen bg-[#0d0d0d] !p-0">
-        {/* Background Decorative Elements */}
-        <div className="absolute inset-0 z-0 opacity-20 overflow-hidden pointer-events-none">
-           <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_30%,_rgba(255,180,0,0.1)_0%,_transparent_50%)]" />
-           <motion.div 
-             initial={{ rotate: -15, x: 200 }}
-             animate={{ rotate: -12, x: 150 }}
-             transition={{ duration: 2, ease: "easeOut" }}
-             className="absolute -right-20 top-0 w-[60%] h-[150%] bg-[#1a1a1a] border-l-4 border-gollog/30 transform origin-top-right hidden lg:block shadow-2xl"
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+           <img 
+             src="/capa_fundo_topo.png" 
+             alt="Capa Fundo Topo" 
+             className="w-full h-full object-cover opacity-90"
            />
+           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0d0d0d]/50 to-[#0d0d0d] pointer-events-none" />
         </div>
 
         <div className="max-w-7xl mx-auto w-full z-10 relative flex flex-col lg:flex-row items-center justify-between min-h-screen px-6 py-20 lg:py-0 gap-16 lg:gap-0">
