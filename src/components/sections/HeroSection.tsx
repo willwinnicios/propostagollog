@@ -31,19 +31,17 @@ export default function HeroSection({ scrollYProgress }: any) {
           </div>
         }
       >
-        <div className="max-w-7xl mx-auto w-full z-10 relative flex flex-col items-start justify-center min-h-[90svh] px-6 pt-12 pb-24 gap-8 lg:flex-row lg:items-center lg:justify-between lg:py-0 lg:gap-0">
+        <div className="max-w-7xl mx-auto w-full z-10 relative flex flex-col items-start justify-center min-h-[95svh] px-6 pt-20 pb-24 lg:flex-row lg:items-center lg:justify-between lg:py-0">
           
-          {/* Logo Area - Simplified for mobile stability */}
-          <div className="w-full lg:flex-1 mb-4 lg:mb-0">
-            <FadeIn delay={0.1} direction="down">
-              <ArvenLogo className="scale-[0.65] md:scale-150 lg:scale-[1.8] origin-left" priority={true} />
-            </FadeIn>
-          </div>
-
-          {/* Left Content */}
           <div className="text-left w-full lg:flex-1">
-            <FadeIn delay={0.3} direction="right">
+            <FadeIn delay={0.2} direction="right">
               <div className="flex flex-col items-start">
+                
+                {/* Logo - Integrated into the main stack */}
+                <div className="mb-10 lg:mb-16">
+                  <ArvenLogo className="scale-[0.6] md:scale-125 lg:scale-[1.8] origin-left" priority={true} />
+                </div>
+
                 <h1 className="font-display flex flex-col mb-4 md:mb-8">
                   <span className="text-lg md:text-4xl text-arven-yellow font-bold tracking-[0.2em] uppercase mb-0 md:mb-2 leading-none">Proposta</span>
                   <span className="text-5xl md:text-9xl font-black text-white tracking-tighter leading-[0.85] md:leading-none">COMERCIAL</span>
@@ -82,6 +80,8 @@ export default function HeroSection({ scrollYProgress }: any) {
               </div>
             </FadeIn>
           </div>
+          
+          <div className="hidden lg:block lg:flex-1" />
           
           <motion.div 
             style={{ opacity: useTransform(scrollYProgress, [0, 0.05], [1, 0]) }}
