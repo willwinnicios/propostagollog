@@ -7,7 +7,7 @@ export default function FinalCtaSection({ scrollYProgress }: any) {
   return (
     <>
       {/* 6. FINAL CTA & URGENCY */}
-      <footer className="relative bg-[#0d0d0d] py-32 px-6 overflow-hidden">
+      <footer id="aceitar-oferta" className="relative bg-[#0d0d0d] py-32 px-6 overflow-hidden">
         <GridBackground color="rgba(255, 90, 0, 0.03)" />
         
         <div className="relative z-10 max-w-4xl mx-auto text-center">
@@ -35,10 +35,18 @@ export default function FinalCtaSection({ scrollYProgress }: any) {
             <motion.a
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              animate={{ 
+                boxShadow: ["0 20px 50px rgba(255,90,0,0.2)", "0 20px 80px rgba(255,90,0,0.5)", "0 20px 50px rgba(255,90,0,0.2)"] 
+              }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
               href="https://wa.me/5546999847839?text=Ol%C3%A1%21%20Vi%20a%20proposta%20da%20GOLLOG%20e%20gostaria%20de%20aceitar%20a%20oferta."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-4 bg-gollog text-white px-10 md:px-16 py-6 md:py-8 rounded-full text-lg md:text-2xl font-black shadow-[0_20px_50px_rgba(255,90,0,0.3)] hover:shadow-[0_20px_70px_rgba(255,90,0,0.5)] transition-all group"
+              className="inline-flex items-center gap-4 bg-gollog text-white px-10 md:px-16 py-6 md:py-8 rounded-full text-lg md:text-2xl font-black shadow-[0_20px_50px_rgba(255,90,0,0.3)] transition-all group"
             >
               ACEITAR OFERTA AGORA
               <ArrowRight className="group-hover:translate-x-2 transition-transform" size={28} />

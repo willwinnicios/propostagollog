@@ -47,7 +47,7 @@ export default function App() {
           
           <div className="flex items-center gap-4">
             <a 
-              href="#investimento" 
+              href="#aceitar-oferta" 
               className="bg-gollog hover:bg-white text-black px-4 py-2 md:px-6 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all duration-300"
             >
               Fechar Agora
