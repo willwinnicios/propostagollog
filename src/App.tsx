@@ -29,17 +29,17 @@ export default function App() {
       {/* Floating Header (Menu) */}
       <motion.header 
         style={{ opacity: headerOpacity, y: headerY }}
-        className="fixed top-4 left-4 right-4 md:left-8 md:right-8 z-[90] rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+        className="fixed top-4 left-4 right-4 md:left-8 md:right-8 z-[90] rounded-2xl md:rounded-3xl overflow-hidden border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
       >
-        {/* Animated Glassmorphism Background */}
-        <div className="absolute inset-0 bg-[#0d0d0d]/60 backdrop-blur-xl" />
+        {/* Solid Background (No Transparency) */}
+        <div className="absolute inset-0 bg-[#141414]" />
         <motion.div 
           animate={{ 
             x: [0, 50, -50, 0],
-            opacity: [0.2, 0.4, 0.2]
+            opacity: [0.1, 0.2, 0.1]
           }}
           transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-full -left-full w-[300%] h-[300%] bg-[radial-gradient(circle_at_center,rgba(255,90,0,0.15)_0%,transparent_50%)] pointer-events-none"
+          className="absolute -top-full -left-full w-[300%] h-[300%] bg-[radial-gradient(circle_at_center,rgba(255,90,0,0.1)_0%,transparent_50%)] pointer-events-none"
         />
         
         <div className="relative z-10 px-6 py-3 md:py-4 flex items-center justify-between">
@@ -50,11 +50,11 @@ export default function App() {
                 alt="Arven" 
                 className="h-7 md:h-10 object-contain brightness-0 invert" 
               />
-              <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-arven-yellow to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+              <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-gollog to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
             </div>
             <div className="h-6 w-px bg-white/20" />
             <div className="flex flex-col">
-              <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-arven-yellow leading-none">Proposta</span>
+              <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-gollog leading-none">Proposta</span>
               <span className="text-[12px] md:text-sm font-bold uppercase tracking-tight text-white mt-0.5">Comercial</span>
             </div>
           </div>
@@ -66,7 +66,7 @@ export default function App() {
             </div>
             <a 
               href="#investimento" 
-              className="bg-arven-yellow hover:bg-white text-black px-4 py-2 md:px-6 md:py-2.5 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,144,0,0.4)] active:scale-95"
+              className="bg-gollog hover:bg-white text-black px-4 py-2 md:px-6 md:py-2.5 rounded-xl text-[10px] md:text-xs font-black uppercase tracking-widest transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,90,0,0.4)] active:scale-95"
             >
               Fechar Agora
             </a>
