@@ -243,12 +243,19 @@ export default function App() {
       
       {/* 1. HERO SECTION (NEW PREMIUM DESIGN) */}
       <Section className="relative overflow-hidden min-h-screen bg-[#0d0d0d] !p-0">
-        {/* Background Image */}
+        {/* Background Image - Responsive */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+           {/* Desktop Image */}
            <img 
              src="/capa_fundo_topo.png" 
              alt="Capa Fundo Topo" 
-             className="w-full h-full object-cover opacity-90"
+             className="hidden md:block w-full h-full object-cover opacity-90"
+           />
+           {/* Mobile Image */}
+           <img 
+             src="/capa_fundo_mobile.png" 
+             alt="Capa Fundo Mobile" 
+             className="block md:hidden w-full h-full object-cover opacity-90"
            />
            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0d0d0d]/50 to-[#0d0d0d] pointer-events-none" />
         </div>
@@ -304,20 +311,27 @@ export default function App() {
             </FadeIn>
           </div>
           
-          <FadeIn delay={1} className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center">
-            <span className="text-[10px] uppercase tracking-widest text-white/40 mb-2 font-bold hidden md:block">Role para descobrir</span>
-            <motion.div 
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              className="w-8 h-12 rounded-full border-2 border-white/20 flex justify-center p-1"
-            >
-              <motion.div 
-                animate={{ y: [0, 16, 0], opacity: [1, 0, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                className="w-1.5 h-1.5 bg-arven-yellow rounded-full"
-              />
-            </motion.div>
-          </FadeIn>
+          <motion.div 
+            style={{ opacity: useTransform(scrollYProgress, [0, 0.05], [1, 0]) }}
+            className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none"
+          >
+            <FadeIn delay={1.5} direction="down">
+              <div className="flex flex-col items-center">
+                <span className="text-[10px] uppercase tracking-widest text-white/40 mb-3 font-bold hidden md:block">Role para descobrir</span>
+                <motion.div 
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  className="w-7 h-11 rounded-full border-2 border-white/20 flex justify-center p-1"
+                >
+                  <motion.div 
+                    animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="w-1.5 h-1.5 bg-arven-yellow rounded-full"
+                  />
+                </motion.div>
+              </div>
+            </FadeIn>
+          </motion.div>
         </div>
       </Section>
 
