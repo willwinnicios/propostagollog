@@ -1,15 +1,43 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useInView, animate } from 'motion/react';
 import { Target, BarChart3, Video, Send, CheckCircle2, ChevronDown, Handshake, TrendingUp, MonitorSmartphone, ShieldCheck, ArrowRight, PackageOpen, Rocket, Zap, Crosshair } from 'lucide-react';
 
 // --- INTERACTIVE COMPONENTS --- //
+
+const GridBackground = ({ color = "rgba(255, 90, 0, 0.05)" }: { color?: string }) => (
+  <div className="absolute inset-0 pointer-events-none z-0" 
+       style={{ backgroundImage: `radial-gradient(${color} 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
+);
+
+const BackgroundOrbs = () => (
+  <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <motion.div 
+      animate={{ 
+        x: [0, 100, 0], 
+        y: [0, 50, 0],
+        scale: [1, 1.2, 1]
+      }}
+      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+      className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-gollog/10 blur-[120px] rounded-full"
+    />
+    <motion.div 
+      animate={{ 
+        x: [0, -100, 0], 
+        y: [0, -50, 0],
+        scale: [1, 1.3, 1]
+      }}
+      transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+      className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-500/5 blur-[120px] rounded-full"
+    />
+  </div>
+);
 
 const ArvenLogo = ({ className = "" }: { className?: string }) => (
   <div className={`flex flex-col items-center select-none ${className}`}>
     <img 
       src="/logo.png" 
       alt="Arven Assessoria de Marketing" 
-      className="h-48 md:h-56 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] brightness-110" 
+      className="h-64 md:h-80 lg:h-96 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] brightness-110" 
     />
   </div>
 );
@@ -30,13 +58,19 @@ const SpotlightCard = ({ children, className = "", delay = 0 }: { children: Reac
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
+      transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
       ref={divRef}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setOpacity(1)}
       onMouseLeave={() => setOpacity(0)}
-      className={`relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#0a0a0a] print:opacity-100 print:transform-none ${className}`}
+      className={`relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.03] backdrop-blur-xl shadow-2xl transition-all duration-500 hover:border-gollog/40 hover:shadow-gollog/5 print:opacity-100 print:transform-none group ${className}`}
     >
+      <div
+        className="pointer-events-none absolute -inset-px transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+        style={{
+          background: `radial-gradient(500px circle at ${position.x}px ${position.y}px, rgba(255, 90, 0, 0.12), transparent 80%)`,
+        }}
+      />
       <div
         className="pointer-events-none absolute -inset-px transition-opacity duration-300 print:hidden"
         style={{
@@ -62,7 +96,7 @@ const FadeIn = ({ children, delay = 0, direction = 'up', className = "" }: { chi
       initial={{ opacity: 0, ...directions[direction] }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 1.4, delay, ease: [0.16, 1, 0.3, 1] }}
       className={`print:opacity-100 print:transform-none ${className}`}
     >
       {children}
@@ -70,11 +104,127 @@ const FadeIn = ({ children, delay = 0, direction = 'up', className = "" }: { chi
   );
 };
 
-const Section = ({ children, className = "", id = "" }: { children: React.ReactNode, className?: string, id?: string }) => (
-  <section id={id} className={`min-h-[100svh] py-24 px-6 md:px-12 lg:px-24 flex flex-col justify-center relative ${className}`}>
-    {children}
-  </section>
-);
+const Section = ({ children, className = "", id = "" }: { children: React.ReactNode, className?: string, id?: string }) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
+
+  return (
+    <section id={id} ref={ref} className={`min-h-[100svh] py-20 px-4 md:py-24 md:px-12 lg:px-24 flex flex-col justify-center relative overflow-hidden ${className}`}>
+      <motion.div style={{ y }} className="relative z-10 h-full w-full flex flex-col justify-center">
+        {children}
+      </motion.div>
+    </section>
+  );
+};
+
+const Counter = ({ value, duration = 2.5 }: { value: number, duration?: number }) => {
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (latest) => Math.round(latest).toLocaleString('pt-BR'));
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  useEffect(() => {
+    if (isInView) {
+      animate(count, value, { duration, ease: [0.16, 1, 0.3, 1] });
+    }
+  }, [isInView, count, value, duration]);
+
+  return <motion.span ref={ref}>{rounded}</motion.span>;
+};
+
+const CountdownTimer = () => {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      // End of the current month at 23:59:59
+      const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+      const difference = endOfMonth.getTime() - now.getTime();
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60),
+        });
+      }
+    };
+
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="flex gap-4 md:gap-8 justify-center items-center font-display">
+      {[
+        { label: 'Dias', value: timeLeft.days },
+        { label: 'Horas', value: timeLeft.hours },
+        { label: 'Min', value: timeLeft.minutes },
+        { label: 'Seg', value: timeLeft.seconds },
+      ].map((item) => (
+        <div key={item.label} className="flex flex-col items-center bg-white/5 backdrop-blur-sm border border-white/5 p-3 md:p-6 rounded-2xl md:rounded-3xl min-w-[70px] md:min-w-[110px]">
+          <div className="text-2xl md:text-5xl font-black text-white tabular-nums tracking-tighter">
+            {item.value.toString().padStart(2, '0')}
+          </div>
+          <div className="text-[8px] md:text-[10px] uppercase tracking-widest text-gollog font-black mt-2">
+            {item.label}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const RevenueChart = () => {
+  const data = [
+    { month: 'Maio', value: 180, current: true },
+    { month: 'Jun', value: 205 },
+    { month: 'Jul', value: 240 },
+    { month: 'Ago', value: 285 },
+    { month: 'Set', value: 330 },
+    { month: 'Out', value: 365 },
+    { month: 'Nov', value: 390 },
+    { month: 'Dez', value: 400, goal: true },
+  ];
+
+  return (
+    <div className="w-full h-[300px] md:h-[400px] flex items-end gap-1.5 md:gap-4 px-2 md:px-4 pt-16 relative">
+      {/* Background Lines */}
+      <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-[0.05]">
+        {[...Array(6)].map((_, i) => <div key={i} className="w-full h-px bg-black" />)}
+      </div>
+
+      {data.map((item, index) => (
+        <div key={item.month} className="flex-1 flex flex-col items-center gap-4 group relative z-10 h-full">
+          <div className="relative w-full flex flex-col items-center justify-end h-full">
+            <motion.div
+              initial={{ height: "0%" }}
+              whileInView={{ height: `${(item.value / 400) * 100}%` }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 1.8, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className={`w-full max-w-[45px] rounded-t-xl md:rounded-t-2xl relative transition-all duration-500 group-hover:scale-x-110 ${item.goal ? 'bg-gradient-to-t from-gollog to-[#ff9000] shadow-[0_0_30px_rgba(255,90,0,0.4)]' : item.current ? 'bg-slate-900 shadow-xl' : 'bg-slate-400/30'}`}
+            >
+              <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap bg-black text-white text-[10px] md:text-xs font-black px-2 py-1 rounded-lg shadow-xl z-20">
+                R$ {item.value}k
+              </div>
+            </motion.div>
+          </div>
+          <div className="flex flex-col items-center shrink-0">
+             <span className={`text-[9px] md:text-xs font-black uppercase tracking-tighter ${item.goal ? 'text-gollog font-black' : 'text-slate-500'}`}>{item.month}</span>
+             {item.current && <span className="text-[8px] font-bold text-slate-400 uppercase mt-1">Atual</span>}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 // --- MAIN PORTFOLIO / PROPOSAL APP --- //
 
@@ -84,28 +234,19 @@ export default function App() {
   const yContent = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
 
   return (
-    <div className="bg-black text-slate-50 font-sans selection:bg-gollog selection:text-white overflow-x-hidden relative">
+    <div className="bg-[#0d0d0d] text-slate-50 font-sans selection:bg-gollog selection:text-white overflow-x-hidden relative">
+      <motion.div 
+        className="fixed top-0 left-0 right-0 h-1 bg-gollog z-[100] origin-left"
+        style={{ scaleX: scrollYProgress }}
+      />
+      <BackgroundOrbs />
       
       {/* 1. HERO SECTION (CINEMATIC) */}
-      <Section className="relative overflow-hidden items-start md:items-center text-left md:text-center justify-center">
-        {/* Cinematic Backdrop */}
-        <motion.div 
-          style={{ y: yBg }}
-          className="absolute inset-0 z-0 opacity-30 print:hidden"
-        >
-          <img 
-            src="https://images.unsplash.com/photo-1586528116311-ad8ed7c663c0?q=80&w=2070&auto=format&fit=crop" 
-            alt="Logística" 
-            className="w-full h-full object-cover grayscale opacity-50 mix-blend-screen"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/80 to-black" />
-          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gollog/30 blur-[150px] rounded-full translate-x-1/2 -translate-y-1/2" />
-          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gollog/20 blur-[150px] rounded-full -translate-x-1/2 translate-y-1/2" />
-        </motion.div>
+      <Section className="relative overflow-hidden items-start md:items-center text-left md:text-center justify-center bg-[#0d0d0d]">
+        <GridBackground color="rgba(255, 90, 0, 0.05)" />
 
         <motion.div style={{ y: yContent }} className="max-w-6xl mx-auto w-full z-10 relative print:mt-0 flex flex-col items-center justify-center min-h-[70svh]">
           <FadeIn delay={0.1} direction="down" className="mb-10 lg:mb-12 relative">
-            <div className="absolute inset-0 bg-gollog/20 blur-[60px] rounded-full scale-150 animate-pulse" />
             <ArvenLogo className="relative z-10" />
           </FadeIn>
           
@@ -113,15 +254,22 @@ export default function App() {
             <div className="h-px w-24 bg-gradient-to-r from-transparent via-gollog to-transparent mb-10 opacity-50"></div>
             
             <h1 className="font-display text-2xl md:text-3xl lg:text-4xl text-slate-400 font-light tracking-[0.2em] md:tracking-[0.4em] uppercase leading-loose">
-              Proposta de<br className="md:hidden"/>
-              <strong className="text-white font-bold ml-0 md:ml-4 tracking-[0.1em] md:tracking-[0.2em] block md:inline mt-4 md:mt-0">Assessoria de Marketing</strong>
+              Estratégia de<br className="md:hidden"/>
+              <strong className="text-white font-bold ml-0 md:ml-4 tracking-[0.1em] md:tracking-[0.2em] block md:inline mt-4 md:mt-0 italic">Aceleração B2B</strong>
             </h1>
             
-            <div className="mt-12 px-6 ml-1 py-3 border border-white/10 rounded-full bg-black/40 backdrop-blur-md shadow-2xl">
-              <p className="text-xs md:text-sm font-sans tracking-[0.3em] text-slate-400 uppercase flex items-center gap-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-gollog"></span>
-                Exclusivo para <strong className="text-white font-bold ml-1">GOLLOG</strong>
-              </p>
+            <div className="mt-12 flex flex-col md:flex-row items-center gap-4">
+              <div className="px-6 py-3 border border-white/10 rounded-full bg-black/40 backdrop-blur-md shadow-2xl">
+                <p className="text-xs md:text-sm font-sans tracking-[0.3em] text-slate-400 uppercase flex items-center gap-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gollog animate-pulse"></span>
+                  Foco em <strong className="text-white font-bold ml-1">ALTA PERFORMANCE</strong>
+                </p>
+              </div>
+              <div className="px-5 py-2 border border-gollog/40 rounded-full bg-gollog/10 backdrop-blur-md">
+                 <p className="text-[10px] md:text-xs font-display font-bold tracking-[0.2em] text-gollog uppercase">
+                   Domínio: Rodoviário & Aéreo
+                 </p>
+              </div>
             </div>
           </FadeIn>
 
@@ -137,47 +285,55 @@ export default function App() {
       </Section>
 
       {/* 2. THE STATUS QUO / PERSUASION SECTION */}
-      <Section id="desafio" className="bg-[#020202] relative border-t border-white/5">
-        <div className="max-w-6xl mx-auto w-full">
+      <Section id="desafio" className="bg-[#f8f9fa] text-black relative border-t border-black/5 selection:bg-gollog selection:text-white">
+        <GridBackground color="rgba(0, 0, 0, 0.02)" />
+        <div className="max-w-6xl mx-auto w-full relative z-10">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div className="relative z-10">
               <FadeIn>
                 <div className="flex items-center gap-4 mb-8">
                   <div className="h-[2px] w-12 bg-gollog" />
-                  <span className="font-display font-bold tracking-widest text-slate-500 uppercase text-sm">O Cenário Atual</span>
+                  <span className="font-display font-bold tracking-widest text-slate-400 uppercase text-sm">O Cenário Atual</span>
                 </div>
-                <h2 className="font-display text-4xl md:text-5xl lg:text-7xl font-bold mb-8 leading-[1.05] tracking-tight">
+                <h2 className="font-display text-4xl md:text-5xl lg:text-[5.5rem] font-bold mb-8 leading-[1.05] tracking-tight text-black">
                   Seu frete está <br/>
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-gollog via-gollog-light to-white drop-shadow-[0_0_15px_rgba(255,90,0,0.3)]">invisível?</span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-gollog to-[#ff8c00]">invisível?</span>
                 </h2>
-                <div className="space-y-6 text-xl text-slate-400 font-light leading-relaxed mb-10">
+                <div className="space-y-6 text-xl text-slate-600 font-light leading-relaxed mb-10">
                   <p>
-                    O mercado não compra de quem tem o melhor caminhão ou o melhor galpão. Ele compra de quem é <strong className="text-white font-medium">lembrado primeiro</strong> quando a necessidade de envio surge.
+                    O mercado não compra de quem tem o melhor caminhão. Ele compra de quem é <strong className="text-black font-black uppercase">lembrado primeiro</strong> quando a carga precisa sair — seja no <strong className="text-gollog">rodoviário ou no aéreo.</strong>
                   </p>
                   <p>
-                    Hoje, a jornada comercial (B2B e B2C) acontece nos feeds e stories. Nossa meta não é apenas "fazer posts bonitos", mas construir uma <strong>arquitetura de atração</strong>.
+                    Se você não está no feed do seu cliente, você simplesmente não existe para a decisão dele. Minha meta é transformar sua unidade GOLLOG na <strong className="text-black">única opção lógica</strong> na mente do transportador regional.
                   </p>
                 </div>
               </FadeIn>
             </div>
             
-            {/* Minimalist Stat Data Display */}
             <div className="relative">
               <FadeIn delay={0.3} direction="left">
                 <div className="grid gap-6">
-                  <div className="bg-[#0a0a0a] border border-white/5 p-8 rounded-[2rem] flex flex-col gap-4 group hover:border-gollog/30 transition-colors">
+                  <div className="bg-white border border-black/5 p-8 rounded-[2rem] flex flex-col gap-4 group hover:border-gollog/30 transition-colors shadow-sm">
                     <TrendingUp className="text-gollog" size={32} />
                     <div>
-                      <h4 className="font-display text-4xl font-bold text-white">Posicionamento</h4>
+                      <h4 className="font-display text-3xl font-bold text-black">Posicionamento</h4>
                       <p className="text-slate-500 mt-2">Tomar a liderança de marca regional frente aos concorrentes tradicionais.</p>
                     </div>
                   </div>
                   
-                  <div className="bg-[#0a0a0a] border border-white/5 p-8 rounded-[2rem] flex flex-col gap-4 group hover:border-gollog/30 transition-colors lg:translate-x-12">
+                  <div className="bg-white border border-black/5 p-8 rounded-[2rem] flex flex-col gap-4 group hover:border-gollog/30 transition-colors shadow-sm lg:translate-x-12">
+                    <Zap className="text-gollog" size={32} />
+                    <div>
+                      <h4 className="font-display text-3xl font-bold text-black">Velocidade Híbrida</h4>
+                      <p className="text-slate-500 mt-2">Explorar a força do modal <strong className="text-black">aéreo e rodoviário</strong> para atrair contratos de alta urgência.</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-white border border-black/5 p-8 rounded-[2rem] flex flex-col gap-4 group hover:border-gollog/30 transition-colors shadow-sm">
                     <Target className="text-gollog" size={32} />
                     <div>
-                      <h4 className="font-display text-4xl font-bold text-white">Conversão</h4>
-                      <p className="text-slate-500 mt-2">Drenar tráfego qualificado de pesquisas e redes sociais direto para o seu WhatsApp/Balcão.</p>
+                      <h4 className="font-display text-3xl font-bold text-black">Conversão</h4>
+                      <p className="text-slate-500 mt-2">Drenar tráfego qualificado de pesquisas e redes sociais direto para o seu WhatsApp.</p>
                     </div>
                   </div>
                 </div>
@@ -188,134 +344,158 @@ export default function App() {
       </Section>
 
       {/* 3. THE STRATEGY MACHINE (FUNNEL) */}
-      <Section className="bg-black relative border-t border-white/5 overflow-hidden">
+      <Section className="bg-[#0d0d0d] text-white relative border-t border-white/5 selection:bg-gollog selection:text-white">
+        <GridBackground color="rgba(255, 90, 0, 0.05)" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-gollog/5 blur-[200px] rounded-full pointer-events-none" />
         
         <div className="max-w-7xl mx-auto w-full relative z-10">
-          <FadeIn className="text-center mb-24">
-            <h2 className="font-display text-5xl md:text-7xl font-bold tracking-tight mb-6">
-              A Máquina de <span className="text-transparent bg-clip-text bg-gradient-to-r from-gollog to-gollog-light">Vendas.</span>
+          <FadeIn className="text-center mb-16 md:mb-24">
+            <h2 className="font-display text-4xl md:text-7xl font-bold tracking-tight mb-6">
+              A Máquina de <span className="text-transparent bg-clip-text bg-gradient-to-r from-gollog via-white to-gollog">Resultados.</span>
             </h2>
-            <p className="text-2xl text-slate-400 font-light max-w-3xl mx-auto">
-              Como vamos estruturar o ecossistema digital da GOLLOG para gerar orçamentos diariamente.
+            <p className="text-xl md:text-2xl text-slate-400 font-light max-w-3xl mx-auto px-4 leading-relaxed">
+              Não fazemos "posts bonitos". Construímos ativos digitais que trabalham 24h por dia para interceptar orçamentos e gerar caixa para a GOLLOG.
             </p>
           </FadeIn>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8 px-2 md:px-0">
             <SpotlightCard delay={0.1}>
-              <div className="w-16 h-16 bg-gollog/10 border border-gollog/20 rounded-2xl flex items-center justify-center mb-8">
+              <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-8">
                 <Rocket className="text-gollog" size={32} />
               </div>
               <h3 className="font-display text-2xl font-bold mb-4">1. Atração Ativa</h3>
-              <p className="text-slate-400 mb-6 flex-grow">
+              <p className="text-slate-400 mb-6 flex-grow leading-relaxed">
                 Utilizamos o Meta Ads para interceptar empresas e pessoas físicas que precisam de agilidade. Impacto direto na sua região de cobertura.
               </p>
-              <div className="text-sm font-display text-gollog uppercase tracking-wider font-bold">Foco: Volume & Leads</div>
+              <div className="text-sm font-display text-gollog uppercase tracking-widest font-bold">Foco: Volume & Leads</div>
             </SpotlightCard>
 
             <SpotlightCard delay={0.3}>
-              <div className="w-16 h-16 bg-slate-800/50 border border-slate-700/50 rounded-2xl flex items-center justify-center mb-8">
-                <ShieldCheck className="text-slate-300" size={32} />
+              <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-8">
+                <ShieldCheck className="text-gollog" size={32} />
               </div>
               <h3 className="font-display text-2xl font-bold mb-4">2. Retenção & Confiança</h3>
-              <p className="text-slate-400 mb-6 flex-grow">
+              <p className="text-slate-400 mb-6 flex-grow leading-relaxed">
                 Criamos um Instagram/Facebook impecáveis. Ao clicar no anúncio, o cliente vê uma GOLLOG estruturada, moderna e confiável.
               </p>
-              <div className="text-sm font-display text-slate-500 uppercase tracking-wider font-bold">Foco: Autoridade</div>
+              <div className="text-sm font-display text-slate-500 uppercase tracking-widest font-bold">Foco: Autoridade</div>
             </SpotlightCard>
 
             <SpotlightCard delay={0.5}>
-              <div className="w-16 h-16 bg-gollog/10 border border-gollog/20 rounded-2xl flex items-center justify-center mb-8">
+              <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-8">
                 <Zap className="text-gollog" size={32} />
               </div>
               <h3 className="font-display text-2xl font-bold mb-4">3. Conversão B2B</h3>
-              <p className="text-slate-400 mb-6 flex-grow">
+              <p className="text-slate-400 mb-6 flex-grow leading-relaxed">
                 Ataque direto no LinkedIn. Posicionamos sua unidade para captar contratos de logística fracionada com tomadores de decisão.
               </p>
-              <div className="text-sm font-display text-gollog uppercase tracking-wider font-bold">Foco: Ticket Médio</div>
+              <div className="text-sm font-display text-gollog uppercase tracking-widest font-bold">Foco: Ticket Médio</div>
             </SpotlightCard>
           </div>
         </div>
       </Section>
 
       {/* 4. DELIVERABLES (Bento Grid) */}
-      <Section className="bg-[#020202] relative border-t border-white/5">
-        <div className="max-w-7xl mx-auto w-full">
+      <Section className="bg-[#f8f9fa] text-black relative border-t border-black/5 selection:bg-gollog selection:text-white">
+        <GridBackground color="rgba(0, 0, 0, 0.02)" />
+        <div className="max-w-7xl mx-auto w-full relative z-10">
           <FadeIn className="mb-16">
             <div className="flex items-center gap-4 mb-4">
               <div className="h-[2px] w-12 bg-gollog" />
-              <span className="font-display font-bold tracking-widest text-slate-500 uppercase text-sm">O Escopo</span>
+              <span className="font-display font-bold tracking-widest text-slate-400 uppercase text-sm">O Escopo</span>
             </div>
-            <h2 className="font-display text-4xl md:text-6xl font-bold">Entregáveis Mensais</h2>
+            <h2 className="font-display text-4xl md:text-6xl font-bold text-black">Entregáveis Mensais</h2>
           </FadeIn>
 
           <div className="grid md:grid-cols-5 gap-6 auto-rows-[minmax(300px,_auto)]">
             
             {/* Social Media - Takes 3 cols */}
-            <SpotlightCard delay={0.1} className="md:col-span-3">
-              <MonitorSmartphone className="text-gollog mb-6" size={36} />
-              <h3 className="font-display text-3xl font-bold mb-4">Mídia Social que Comercializa</h3>
-              <p className="text-slate-400 text-lg mb-8 max-w-xl">
+            <SpotlightCard delay={0.1} className="md:col-span-3 !bg-white !border-black/5 shadow-sm">
+              <div className="flex justify-between items-start mb-6">
+                <MonitorSmartphone className="text-gollog" size={36} />
+                <div className="flex flex-col items-end gap-1">
+                  <div className="px-3 py-1 bg-slate-100 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-500 border border-black/5">
+                    Presença Digital
+                  </div>
+                  <div className="text-[10px] font-bold text-gollog/60 mr-2">8-10 Posts/mês</div>
+                </div>
+              </div>
+              <h3 className="font-display text-3xl font-bold mb-4 text-black">Mídia Social que Comercializa</h3>
+              <p className="text-slate-500 text-lg mb-8 max-w-xl">
                 Deixamos de lado as artes "poluídas". Trazemos o refinamento da GOLLOG nacional para a sua agência local com copys voltadas para venda e segurança.
               </p>
-              <ul className="grid sm:grid-cols-2 gap-x-8 gap-y-4 text-slate-300 mt-auto">
-                <li className="flex items-center gap-3"><CheckCircle2 className="text-gollog shrink-0" size={20} /> <span>8 a 10 Posts High-End/mês</span></li>
-                <li className="flex items-center gap-3"><CheckCircle2 className="text-gollog shrink-0" size={20} /> <span>Copywriting Persuasivo</span></li>
-                <li className="flex items-center gap-3"><CheckCircle2 className="text-gollog shrink-0" size={20} /> <span>Planejamento Institucional</span></li>
-                <li className="flex items-center gap-3"><CheckCircle2 className="text-gollog shrink-0" size={20} /> <span>Aprovação Ágil</span></li>
-              </ul>
+              <div className="grid sm:grid-cols-2 gap-4 mt-auto">
+                <div className="p-4 bg-slate-50 rounded-2xl border border-black/5">
+                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Design</p>
+                   <p className="text-sm font-bold text-slate-700 leading-tight">Artes B2B High-End & Identidade Visual</p>
+                </div>
+                <div className="p-4 bg-slate-50 rounded-2xl border border-black/5">
+                   <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Copywriting</p>
+                   <p className="text-sm font-bold text-slate-700 leading-tight">Legendas Persuasivas & CTAs Diretas</p>
+                </div>
+              </div>
             </SpotlightCard>
 
             {/* LinkedIn - Takes 2 cols */}
-            <SpotlightCard delay={0.2} className="md:col-span-2 bg-blue-950/10">
-              <Handshake className="text-blue-500 mb-6" size={36} />
-              <h3 className="font-display text-2xl font-bold mb-4">Ofensiva LinkedIn</h3>
-              <p className="text-slate-400 mb-8">
-                Posicionamento C-Level. Estruturamos a presença dos gestores para abrir portas no corporativo (indústrias, e-commerces, distribuidores).
+            <SpotlightCard delay={0.2} className="md:col-span-2 !bg-white !border-black/5 shadow-sm">
+              <div className="flex justify-between items-start mb-6">
+                <Handshake className="text-gollog" size={36} />
+                <div className="px-3 py-1 bg-gollog/5 rounded-full text-[10px] font-black uppercase tracking-widest text-gollog border border-gollog/10">
+                  Business B2B
+                </div>
+              </div>
+              <h3 className="font-display text-2xl font-bold mb-4 text-black">Ofensiva LinkedIn</h3>
+              <p className="text-slate-500 mb-8">
+                Posicionamento C-Level. Estruturamos a presença dos gestores para abrir portas no corporativo.
               </p>
               <div className="mt-auto space-y-3">
-                 <div className="text-sm px-4 py-3 bg-white/5 rounded-xl border border-white/5 font-medium flex justify-between">
-                   <span>Networking Mapeado</span> <ArrowRight size={18} className="text-blue-500"/>
+                 <div className="text-xs px-4 py-4 bg-slate-50 border border-black/5 rounded-2xl font-bold flex justify-between text-slate-600 group/item hover:bg-slate-100 transition-colors">
+                   <span>Networking Mapeado</span> <ArrowRight size={18} className="text-gollog group-hover/item:translate-x-1 transition-transform"/>
                  </div>
-                 <div className="text-sm px-4 py-3 bg-white/5 rounded-xl border border-white/5 font-medium flex justify-between">
-                   <span>Fechamento B2B</span> <ArrowRight size={18} className="text-blue-500"/>
+                 <div className="text-xs px-4 py-4 bg-slate-50 border border-black/5 rounded-2xl font-bold flex justify-between text-slate-600 group/item hover:bg-slate-100 transition-colors">
+                   <span>Prospecção Ativa</span> <ArrowRight size={18} className="text-gollog group-hover/item:translate-x-1 transition-transform"/>
                  </div>
               </div>
             </SpotlightCard>
 
             {/* Vídeos - Takes 2 cols */}
-            <SpotlightCard delay={0.3} className="md:col-span-2">
-              <Video className="text-gollog mb-6" size={36} />
-              <h3 className="font-display text-2xl font-bold mb-4">Reels Formato Dinâmico</h3>
-              <p className="text-slate-400 mb-6">
+            <SpotlightCard delay={0.3} className="md:col-span-2 !bg-white !border-black/5 shadow-sm">
+              <div className="flex justify-between items-start mb-6">
+                <Video className="text-gollog" size={36} />
+                <div className="px-3 py-1 bg-slate-100 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-500 border border-black/5">
+                  Engajamento
+                </div>
+              </div>
+              <h3 className="font-display text-2xl font-bold mb-4 text-black">Reels Formato Dinâmico</h3>
+              <p className="text-slate-500 mb-6">
                 Atenção dura segundos. Editamos <strong>2 vídeos mensais</strong> a partir dos materiais imersivos da sua operação (cargas, frotas, bastidores).
               </p>
-              <div className="mt-auto inline-flex items-center gap-2 text-xs font-display text-slate-500 uppercase tracking-widest bg-white/5 px-4 py-2 rounded-lg w-fit">
-                 Ritmo • Engajamento • Viralidade
+              <div className="mt-auto flex items-center gap-4 text-xs font-display text-slate-400 uppercase tracking-widest bg-slate-50 px-4 py-3 rounded-2xl w-full border border-black/5">
+                 <Zap size={14} className="text-gollog" /> Ritmo • Viralidade • Autoridade
               </div>
             </SpotlightCard>
 
             {/* Tráfego Pago - Takes 3 cols */}
-            <SpotlightCard delay={0.4} className="md:col-span-3 !bg-gollog border-none text-white overflow-hidden group">
+            <SpotlightCard delay={0.4} className="md:col-span-3 !bg-gollog border-none text-black overflow-hidden group shadow-xl">
               <div className="absolute -right-20 -bottom-20 opacity-10 group-hover:scale-110 transition-transform duration-1000 ease-out">
                 <BarChart3 size={400} />
               </div>
               <div className="relative z-10 flex flex-col h-full">
                 <div className="flex justify-between items-start mb-6">
-                  <Send className="text-white" size={36} />
-                  <span className="px-4 py-1.5 bg-black/20 rounded-full font-bold text-xs tracking-widest uppercase backdrop-blur-sm border border-white/20">
+                  <Send className="text-black" size={36} />
+                  <span className="px-4 py-1.5 bg-black/10 rounded-full font-bold text-xs tracking-widest uppercase backdrop-blur-sm border border-black/20">
                     Geração de Caixa
                   </span>
                 </div>
                 <h3 className="font-display text-3xl md:text-5xl font-black mb-6">Motor de Tráfego Pago</h3>
-                <p className="text-white/90 text-lg mb-8 max-w-xl font-medium">
+                <p className="text-black/90 text-lg mb-8 max-w-xl font-medium">
                   Seu orçamento alocado matematicamente para gerar contatos diários de quem procura frete. Campanhas no Meta Ads (Instagram/Facebook).
                 </p>
                 <div className="mt-auto flex flex-wrap gap-4">
-                  <span className="bg-black/30 backdrop-blur-md px-5 py-3 rounded-xl text-sm font-bold shadow-lg flex items-center gap-2">
+                  <span className="bg-black/10 backdrop-blur-md px-5 py-3 rounded-xl text-sm font-bold shadow-sm flex items-center gap-2 border border-black/5">
                      <Crosshair size={18}/> Segmentação Hiper-Local
                   </span>
-                  <span className="bg-black/30 backdrop-blur-md px-5 py-3 rounded-xl text-sm font-bold shadow-lg flex items-center gap-2">
+                  <span className="bg-black/10 backdrop-blur-md px-5 py-3 rounded-xl text-sm font-bold shadow-sm flex items-center gap-2 border border-black/5">
                      <MonitorSmartphone size={18}/> Mensagens no WhatsApp
                   </span>
                 </div>
@@ -326,80 +506,229 @@ export default function App() {
         </div>
       </Section>
 
+      {/* 4. COMPARISON SECTION - NOW vs FUTURE */}
+      <Section className="bg-[#f8f9fa] text-black relative border-t border-black/5 selection:bg-gollog selection:text-white">
+        <GridBackground color="rgba(0, 0, 0, 0.02)" />
+        <div className="max-w-6xl mx-auto w-full relative z-10">
+          <FadeIn className="text-center mb-16 md:mb-24">
+             <h2 className="font-display text-4xl md:text-7xl font-bold tracking-tight mb-6">
+                Onde você <span className="text-slate-300">está</span> <br className="hidden md:block"/> vs <span className="text-gollog">Para onde vamos.</span>
+             </h2>
+          </FadeIn>
+
+          <div className="grid md:grid-cols-2 gap-8">
+             <FadeIn delay={0.2} direction="right">
+                <div className="bg-white border border-black/5 p-8 md:p-12 rounded-[3rem] h-full relative overflow-hidden group">
+                   <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                      <Zap size={120} strokeWidth={1} />
+                   </div>
+                   <div className="inline-block px-4 py-1 bg-slate-100 rounded-full text-xs font-black uppercase tracking-widest text-slate-400 mb-8">
+                      Cenário Atual
+                   </div>
+                   <h3 className="font-display text-3xl font-bold mb-6">Hoje você está aqui</h3>
+                   <ul className="space-y-4">
+                      <li className="flex gap-3 text-slate-500 font-medium">
+                         <span className="text-red-500 font-bold">✕</span> Sem agência ou consultoria dedicada
+                      </li>
+                      <li className="flex gap-3 text-slate-500 font-medium">
+                         <span className="text-red-500 font-bold">✕</span> Sem estratégia de crescimento definida
+                      </li>
+                      <li className="flex gap-3 text-slate-500 font-medium">
+                         <span className="text-red-500 font-bold">✕</span> Sem clareza de como alcançar os R$ 400k
+                      </li>
+                      <li className="flex gap-3 text-slate-500 font-medium">
+                         <span className="text-red-500 font-bold">✕</span> Dependência de indicações orgânicas
+                      </li>
+                   </ul>
+                   <div className="mt-12 pt-8 border-t border-slate-100">
+                      <p className="text-slate-400 text-sm italic">"Esperar o resultado sem estratégia é como dirigir no escuro."</p>
+                   </div>
+                </div>
+             </FadeIn>
+
+             <FadeIn delay={0.4} direction="left">
+                <div className="bg-[#0d0d0d] text-white p-8 md:p-12 rounded-[3rem] h-full relative overflow-hidden group border border-white/5 shadow-2xl">
+                   <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                      <Rocket size={120} strokeWidth={1} className="text-gollog" />
+                   </div>
+                   <div className="inline-block px-4 py-1 bg-gollog/10 rounded-full text-xs font-black uppercase tracking-widest text-gollog mb-8">
+                      Com Minha Assessoria
+                   </div>
+                   <h3 className="font-display text-3xl font-bold mb-6 text-white">Com minha Assessoria</h3>
+                   <ul className="space-y-4">
+                      <li className="flex gap-3 text-slate-300 font-medium">
+                         <span className="text-gollog font-bold">✓</span> Determinação e constância diária
+                      </li>
+                      <li className="flex gap-3 text-slate-300 font-medium">
+                         <span className="text-gollog font-bold">✓</span> <strong className="text-white">O Catalisador Estratégico</strong> que faltava para a escala
+                      </li>
+                      <li className="flex gap-3 text-slate-300 font-medium">
+                         <span className="text-gollog font-bold">✓</span> Estratégia multicanal (Road & Air)
+                      </li>
+                      <li className="flex gap-3 text-slate-300 font-medium">
+                         <span className="text-gollog font-bold">✓</span> Trabalho em conjunto para os R$ 400k
+                      </li>
+                   </ul>
+                   <div className="mt-12 pt-8 border-t border-white/10">
+                      <p className="text-slate-400 text-sm italic">"Eu trago o método que faltava para transformar sua força operacional em faturamento real."</p>
+                   </div>
+                </div>
+             </FadeIn>
+          </div>
+        </div>
+      </Section>
+
+      {/* 4.5. THE SHARED GOAL - 400K REVENUE */}
+      <Section className="bg-[#0d0d0d] text-white relative border-t border-white/5 selection:bg-gollog selection:text-white">
+        <GridBackground color="rgba(255, 90, 0, 0.05)" />
+        <div className="max-w-6xl mx-auto w-full relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <FadeIn>
+              <div className="flex items-center gap-4 mb-8">
+                <div className="h-[2px] w-12 bg-gollog" />
+                <span className="font-display font-bold tracking-widest text-slate-500 uppercase text-sm">Visão Estratégica</span>
+              </div>
+              <h2 className="font-display text-4xl md:text-7xl font-bold mb-8 leading-tight">
+                A Jornada aos <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gollog to-[#ff9000]">R$ 400.000,00</span>
+              </h2>
+              <p className="text-xl text-slate-400 font-light leading-relaxed mb-8">
+                Flávio me deu a meta, eu trouxe a estratégia. Sair dos R$ 180k atuais e chegar aos <strong className="text-gollog">400 mil</strong> não é um "talvez", é uma questão de <strong className="text-white underline decoration-gollog underline-offset-8">método e execução.</strong>
+              </p>
+              
+              <div className="space-y-6">
+                <div className="bg-white/5 border border-white/10 p-6 rounded-3xl flex gap-6 items-start">
+                  <div className="w-12 h-12 rounded-2xl bg-gollog/10 flex items-center justify-center shrink-0">
+                    <Handshake className="text-gollog" size={24} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white mb-2">Esforço Conjunto</h4>
+                    <p className="text-sm text-slate-500">O marketing é o combustível (gera as oportunidades), mas o motor é a sua equipe comercial. Precisamos de <strong className="text-slate-300">atendimento ágil e prospecção ativa</strong> para converter cada lead em faturamento.</p>
+                  </div>
+                </div>
+                
+                <div className="bg-white/5 border border-white/10 p-6 rounded-3xl flex gap-6 items-start">
+                  <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center shrink-0">
+                    <TrendingUp className="text-slate-400" size={24} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white mb-2">Escalabilidade</h4>
+                    <p className="text-sm text-slate-500">A meta é ambiciosa, mas <strong className="text-slate-300">plausível.</strong> Com o aumento do volume de orçamentos, o time precisa estar preparado para o novo patamar de demanda rodoviária e aérea.</p>
+                  </div>
+                </div>
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={0.3} className="bg-white rounded-[3rem] p-8 md:p-12 shadow-2xl relative overflow-hidden">
+               <div className="absolute top-0 left-0 w-full h-2 bg-gollog" />
+               <div className="flex justify-between items-center mb-8">
+                 <div>
+                   <h3 className="text-black font-display text-2xl font-black">Projeção de Crescimento</h3>
+                   <p className="text-slate-400 text-sm font-bold uppercase tracking-widest mt-1">Faturamento Mensal (R$)</p>
+                 </div>
+                 <div className="text-right">
+                   <p className="text-gollog font-display text-4xl font-black">+122%</p>
+                   <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Expectativa de ROI</p>
+                 </div>
+               </div>
+               
+               <RevenueChart />
+            </FadeIn>
+          </div>
+        </div>
+      </Section>
+
       {/* 4.5. THE VALUE ANCHOR */}
-      <Section className="bg-gollog text-black relative !min-h-[70svh] border-t border-black/10 selection:bg-black selection:text-white">
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_transparent_0%,_black_100%)]" />
+      <Section className="bg-[#0d0d0d] text-white relative !min-h-[70svh] border-t border-white/5 selection:bg-gollog selection:text-white">
+        <GridBackground color="rgba(255, 90, 0, 0.05)" />
+        <div className="absolute inset-0 opacity-5 bg-[radial-gradient(circle_at_center,_transparent_0%,_gollog_100%)]" />
         <div className="max-w-6xl mx-auto w-full relative z-10 text-center flex flex-col items-center">
           <FadeIn>
-            <div className="w-24 h-24 bg-black/10 flex items-center justify-center rounded-[2rem] transform rotate-3 mb-10 mx-auto">
-              <Target size={48} className="text-black/80" />
+            <div className="w-24 h-24 bg-gollog/10 flex items-center justify-center rounded-[2rem] transform rotate-3 mb-10 mx-auto">
+              <Target size={48} className="text-gollog" />
             </div>
             
-            <h2 className="font-display text-2xl md:text-3xl font-bold leading-[1.1] text-black/70 mb-6 uppercase tracking-widest">
+            <h2 className="font-display text-2xl md:text-3xl font-bold leading-[1.1] text-slate-500 mb-6 uppercase tracking-widest">
               Uma reflexão rápida para o seu negócio:
             </h2>
             
-            <h3 className="font-display text-4xl md:text-5xl lg:text-6xl font-black leading-tight md:leading-tight mb-8">
-              "Se eu te entregasse de <span className="text-white">10 a 20 empresas</span> interessadas na sua solução,<br className="hidden lg:block"/> quanto acha que valeria meu serviço de <br className="hidden md:block"/> <span className="underline decoration-black/30 underline-offset-8">assessoria de marketing?</span>"
+            <h3 className="font-display text-3xl md:text-5xl lg:text-6xl font-black leading-[1.2] mb-8 text-white max-w-6xl mx-auto tracking-tight">
+              "Se eu te entregasse de <span className="text-gollog italic">10 a 20 empresas</span> interessadas na sua solução <br className="hidden md:block" />
+              <span className="relative inline-block">
+                <span className="relative z-10 text-gollog px-1">por mês</span>
+                <span className="absolute bottom-1 left-0 w-full h-3 bg-gollog/20 rounded-sm" />
+              </span>, quanto valeria meu serviço de <br className="hidden md:block" />
+              <span className="underline decoration-gollog decoration-2 underline-offset-[8px]">assessoria de marketing?</span>"
             </h3>
           </FadeIn>
         </div>
       </Section>
 
       {/* 5. INVESTMENT & TERMS - THE BIG CLOSING */}
-      <Section className="bg-black relative border-t border-white/10 overflow-hidden">
-        {/* Cinematic abstract glow */}
-        <div className="absolute top-0 right-0 w-[50vw] h-[50vh] bg-gollog/10 blur-[150px] opacity-70 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[50vw] h-[50vh] bg-blue-500/5 blur-[150px] opacity-70 pointer-events-none" />
-
+      <Section className="bg-[#f8f9fa] text-black relative border-t border-black/5 overflow-hidden selection:bg-gollog selection:text-white">
+        <GridBackground color="rgba(0, 0, 0, 0.02)" />
         <div className="max-w-6xl mx-auto w-full relative z-10">
           <FadeIn>
-            <div className="text-center mb-20">
+            <div className="text-center mb-16 md:mb-20">
               <div className="inline-flex items-center gap-4 mb-6">
                 <div className="h-[2px] w-8 bg-gollog" />
                 <span className="font-display font-bold tracking-widest text-slate-400 uppercase text-sm">O Acordo Comercial</span>
                 <div className="h-[2px] w-8 bg-gollog" />
               </div>
-              <h2 className="font-display text-5xl md:text-7xl lg:text-[5rem] font-black mb-6 tracking-tight">
+              <h2 className="font-display text-4xl md:text-7xl lg:text-[5.5rem] font-black mb-6 tracking-tight">
                 Variação <span className="italic text-gollog pr-2">Assimétrica.</span>
               </h2>
-              <p className="text-xl md:text-2xl text-slate-400 font-light max-w-3xl mx-auto">
-                A resposta é muito maior que nosso investimento mental. O valor abaixo representa uma fração mínima do faturamento que uma única carga B2B pode gerar. Nosso objetivo é um ROI rápido e agressivo.
+              <p className="text-lg md:text-2xl text-slate-500 font-light max-w-3xl mx-auto px-4 leading-relaxed">
+                Investir R$ 2.500,00 para buscar um faturamento de <strong className="text-black">R$ 400.000,00</strong> não é um custo, é a decisão mais lógica que você tomará este ano. O risco de ficar onde você está hoje é infinitamente maior.
               </p>
             </div>
           </FadeIn>
 
-          <div className="grid lg:grid-cols-12 gap-8 items-center max-w-6xl mx-auto relative">
+          <div className="grid lg:grid-cols-12 gap-8 items-stretch max-w-6xl mx-auto relative px-2 md:px-0">
             
             {/* The Price Card */}
             <FadeIn delay={0.2} direction="up" className="lg:col-span-7 relative group">
-              <div className="absolute inset-0 bg-gollog/20 blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              <div className="bg-[#0a0a0a]/80 backdrop-blur-2xl border border-white/15 p-10 md:p-16 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gollog to-gollog-light" />
+              <div className="absolute inset-0 bg-gollog/10 blur-[100px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="bg-white border border-black/5 p-8 md:p-16 rounded-[2.5rem] shadow-xl relative overflow-hidden h-full flex flex-col">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gollog to-gollog/50" />
                 
                 <div className="mb-10">
-                  <p className="font-display text-slate-500 uppercase tracking-[0.2em] text-sm font-bold mb-6 flex items-center gap-3">
+                  <p className="font-display text-slate-400 uppercase tracking-[0.2em] text-sm font-bold mb-6 flex items-center gap-3">
                      <CheckCircle2 size={16} className="text-gollog"/> Pacote Agency Premium
                   </p>
                   <div className="flex items-start gap-2">
-                    <span className="text-3xl font-bold text-gollog mt-2">R$</span>
-                    <span className="font-display text-[5.5rem] md:text-[7rem] font-black tracking-tighter leading-none text-white">2.500</span>
-                    <span className="text-2xl text-slate-500 font-light self-end pb-4">/mês</span>
+                    <span className="text-3xl font-bold text-gollog mt-2 md:mt-4">R$</span>
+                    <span className="font-display text-[4.5rem] md:text-[7.5rem] font-black tracking-tighter leading-none text-black">
+                      <Counter value={2500} />
+                    </span>
+                    <span className="text-xl md:text-2xl text-slate-400 font-light self-end pb-2 md:pb-6 ml-2">/mês</span>
                   </div>
-                  <p className="text-sm font-medium text-slate-500 mt-6 border-l-2 border-white/10 pl-4 py-1">
-                    * Fee da agência. Verba de campanhas para as plataformas (Meta) deve ser definida e paga à parte pela unidade.
-                  </p>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-4 text-slate-300 font-medium">
-                  <div className="bg-white/5 py-3 px-4 rounded-xl flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-gollog" /> Social Media & Vídeos
+                <div className="grid gap-2 text-slate-600 font-bold mt-auto">
+                  <div className="bg-slate-50 py-3 px-5 rounded-xl flex items-center gap-3 border border-black/5 text-[10px] md:text-xs uppercase tracking-wider">
+                    <CheckCircle2 size={14} className="text-gollog shrink-0" /> Planejamento Estratégico Mensal
                   </div>
-                  <div className="bg-white/5 py-3 px-4 rounded-xl flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-gollog" /> Gestão de LinkedIn
+                  <div className="bg-slate-50 py-3 px-5 rounded-xl flex items-center gap-3 border border-black/5 text-[10px] md:text-xs uppercase tracking-wider">
+                    <CheckCircle2 size={14} className="text-gollog shrink-0" /> Social Media (8 a 10 Posts High-End)
                   </div>
-                  <div className="bg-white/5 py-3 px-4 rounded-xl flex items-center gap-3 sm:col-span-2">
-                    <div className="w-2 h-2 rounded-full bg-gollog" /> Tráfego Pago (Instagram, Face & WP)
+                  <div className="bg-slate-50 py-3 px-5 rounded-xl flex items-center gap-3 border border-black/5 text-[10px] md:text-xs uppercase tracking-wider">
+                    <CheckCircle2 size={14} className="text-gollog shrink-0" /> Edição de Vídeos (2 Reels Dinâmicos)
+                  </div>
+                  <div className="bg-slate-50 py-3 px-5 rounded-xl flex items-center gap-3 border border-black/5 text-[10px] md:text-xs uppercase tracking-wider">
+                    <CheckCircle2 size={14} className="text-gollog shrink-0" /> Ofensiva LinkedIn B2B (Prospecção)
+                  </div>
+                  <div className="bg-slate-50 py-3 px-5 rounded-xl flex items-center gap-3 border border-black/5 text-[10px] md:text-xs uppercase tracking-wider">
+                    <CheckCircle2 size={14} className="text-gollog shrink-0" /> Gestão de Tráfego Pago (Ads)
+                  </div>
+                  <div className="bg-slate-50 py-3 px-5 rounded-xl flex items-center gap-3 border border-black/5 text-[10px] md:text-xs uppercase tracking-wider">
+                    <CheckCircle2 size={14} className="text-gollog shrink-0" /> Configuração de API de Conversão
+                  </div>
+                  <div className="bg-slate-50 py-3 px-5 rounded-xl flex items-center gap-3 border border-black/5 text-[10px] md:text-xs uppercase tracking-wider">
+                    <CheckCircle2 size={14} className="text-gollog shrink-0" /> Relatórios de Métricas & Leads
+                  </div>
+                  <div className="bg-slate-50 py-3 px-5 rounded-xl flex items-center gap-3 border border-black/5 text-[10px] md:text-xs uppercase tracking-wider">
+                    <CheckCircle2 size={14} className="text-gollog shrink-0" /> Suporte VIP via WhatsApp
                   </div>
                 </div>
               </div>
@@ -407,27 +736,27 @@ export default function App() {
 
             {/* The "No Risk" Guarantee -> Super Persuasive */}
             <FadeIn delay={0.4} direction="up" className="lg:col-span-5 w-full">
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-6 h-full">
                 
-                <SpotlightCard className="!p-8 !rounded-3xl">
-                  <ShieldCheck className="text-gollog mb-5 opacity-40 absolute right-6 top-6" size={80} />
-                  <div className="inline-block px-3 py-1 bg-gollog/20 text-gollog border border-gollog/30 font-display font-bold text-xs tracking-widest uppercase rounded-lg mb-4">
+                <SpotlightCard className="!p-8 md:!p-10 !rounded-[2.5rem] !bg-white !border-black/5 shadow-lg flex-1 text-black">
+                  <ShieldCheck className="text-gollog mb-5 opacity-20 absolute right-8 top-8" size={80} />
+                  <div className="inline-block px-3 py-1 bg-gollog/10 text-gollog border border-gollog/20 font-display font-bold text-xs tracking-widest uppercase rounded-lg mb-6">
                     Primeiros 3 Meses
                   </div>
-                  <h4 className="font-display text-3xl font-bold text-white mb-4 relative z-10 tracking-tight">Validação sem Risco</h4>
-                  <p className="text-slate-400 text-base relative z-10 leading-relaxed font-light">
-                    Pagamento antecipado no mês. <strong className="text-white font-medium">Não amarramos clientes com multas.</strong> Se no trimestre inicial você não enxergar o valor da operação, finalizamos o serviço tranquilamente. Sem burocracia.
+                  <h4 className="font-display text-2xl md:text-3xl font-bold text-black mb-4 relative z-10 tracking-tight">Validação sem Risco</h4>
+                  <p className="text-slate-500 text-sm md:text-base relative z-10 leading-relaxed font-light">
+                    Pagamento antecipado no mês. <strong className="text-black font-medium">Não amarramos clientes com multas.</strong> Se no trimestre inicial você não enxergar o valor da operação, finalizamos o serviço tranquilamente. Sem burocracia.
                   </p>
                 </SpotlightCard>
 
-                <SpotlightCard className="!p-8 !rounded-3xl !border-white/5">
-                  <Handshake className="text-slate-500 mb-5 opacity-20 absolute right-6 top-6" size={80} />
-                  <div className="inline-block px-3 py-1 bg-white/10 text-slate-300 border border-white/20 font-display font-bold text-xs tracking-widest uppercase rounded-lg mb-4">
+                <SpotlightCard className="!p-8 md:!p-10 !rounded-[2.5rem] !bg-white !border-black/5 shadow-lg flex-1 text-black">
+                  <Handshake className="text-slate-200 mb-5 opacity-50 absolute right-8 top-8" size={80} />
+                  <div className="inline-block px-3 py-1 bg-slate-100 text-slate-500 border border-black/5 font-display font-bold text-xs tracking-widest uppercase rounded-lg mb-6">
                     A Partir do 4º Mês
                   </div>
-                  <h4 className="font-display text-2xl font-bold text-white mb-3 relative z-10 tracking-tight">Partnership Anual</h4>
-                  <p className="text-slate-400 text-sm md:text-base relative z-10 leading-relaxed font-light">
-                    Após provarmos o retorno, desenhamos um contrato de 12 meses. O detalhe: <strong className="text-white font-medium">se o serviço prestado cair de qualidade, você pode cancelar.</strong> Mantemos a relação pautada em entregas.
+                  <h4 className="font-display text-2xl md:text-3xl font-bold text-black mb-4 relative z-10 tracking-tight">Partnership Anual</h4>
+                  <p className="text-slate-500 text-sm md:text-base relative z-10 leading-relaxed font-light">
+                    Após provarmos o retorno, desenhamos um contrato de 12 meses. O detalhe: <strong className="text-black font-medium">se o serviço prestado cair de qualidade, você pode cancelar.</strong> Mantemos a relação pautada em entregas.
                   </p>
                 </SpotlightCard>
                 
@@ -437,47 +766,58 @@ export default function App() {
           </div>
         </div>
       </Section>
-      
-      {/* 6. BIG CTA FOOTER / PRINT HINTS */}
-      <footer className="relative bg-gollog text-black pt-24 pb-12 overflow-hidden selection:bg-black selection:text-white">
-        {/* Background typographic noise */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] text-center opacity-10 pointer-events-none">
-          <span className="font-display font-black text-[25vw] leading-none whitespace-nowrap tracking-tighter">GOLLOG</span>
-        </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+      {/* 6. FINAL CTA & URGENCY */}
+      <footer className="relative bg-[#0d0d0d] py-32 px-6 overflow-hidden">
+        <GridBackground color="rgba(255, 90, 0, 0.03)" />
+        
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
           <FadeIn>
-            <h2 className="font-display text-5xl md:text-7xl font-black mb-8 tracking-tighter">Pronto para acelerar?</h2>
-            <p className="text-xl md:text-2xl font-medium mb-12 opacity-80 max-w-2xl mx-auto">
-              A resposta entre fechar o frete com você ou com a concorrência começa no digital.
+            <div className="inline-block px-4 py-1.5 bg-gollog/10 text-gollog border border-gollog/20 rounded-full text-[10px] font-black uppercase tracking-widest mb-10">
+              Oferta com Tempo Limitado
+            </div>
+            
+            <h2 className="font-display text-5xl md:text-8xl font-black mb-8 tracking-tighter uppercase text-white">
+              Domínio ou <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-gollog to-white">Estagnação?</span>
+            </h2>
+            
+            <p className="text-xl md:text-2xl font-medium mb-10 text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              Enquanto você lê isso, a demanda por frete na sua região está sendo drenada por quem está visível. <strong className="text-white">Vamos tomar o que é seu por direito?</strong>
             </p>
-            <button 
-              onClick={() => window.print()}
-              className="bg-black text-white hover:bg-[#1a1a1a] hover:scale-105 px-10 py-5 rounded-full font-display font-bold text-lg transition-all duration-300 shadow-2xl print:hidden flex items-center justify-center gap-3 mx-auto"
+            
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-gollog mb-10 opacity-80">
+              Esta proposta e as condições comerciais apresentadas expiram em:
+            </p>
+
+            <div className="mb-20">
+              <CountdownTimer />
+            </div>
+
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              href="https://wa.me/5546999847839?text=Ol%C3%A1%21%20Vi%20a%20proposta%20da%20GOLLOG%20e%20gostaria%20de%20aceitar%20a%20oferta."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-4 bg-gollog text-white px-10 md:px-16 py-6 md:py-8 rounded-full text-lg md:text-2xl font-black shadow-[0_20px_50px_rgba(255,90,0,0.3)] hover:shadow-[0_20px_70px_rgba(255,90,0,0.5)] transition-all group"
             >
-              Exportar Proposta em PDF <ArrowRight size={20}/>
-            </button>
-            <p className="mt-6 text-sm font-bold opacity-60 print:hidden">
-              Dica: Ajuste nas configurações de impressão para "Salvar como PDF" e habilite a impressão de "Gráficos de Fundo" para preservar o design premium.
-            </p>
+              ACEITAR OFERTA AGORA
+              <ArrowRight className="group-hover:translate-x-2 transition-transform" size={28} />
+            </motion.a>
+
+            <div className="mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
+               <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                  <p className="font-display font-black text-xl tracking-tighter text-white">Willian Winnicios Cardoso</p>
+                  <p className="font-sans font-bold text-[10px] tracking-[0.2em] uppercase text-gollog">Proprietário da Arven</p>
+               </div>
+               <ArvenLogo className="scale-75 opacity-50 grayscale hover:grayscale-0 transition-all cursor-pointer" />
+               <p className="text-slate-600 text-[10px] font-bold uppercase tracking-widest">
+                  © 2026 Arven Assessoria
+               </p>
+            </div>
           </FadeIn>
         </div>
-
-        <div className="relative z-10 mt-24 border-t border-black/10 pt-12 flex flex-col items-center max-w-5xl mx-auto px-6 text-center">
-          <p className="text-sm font-bold tracking-widest uppercase opacity-60 mb-8 border-b border-black/10 pb-4">Proposta Confidencial elaborada para apresentação</p>
-          
-          <div className="flex flex-col items-center justify-center">
-            <p className="font-display font-black text-2xl tracking-tighter opacity-90 mb-1">Willian Winnicios Cardoso</p>
-            <p className="font-sans font-bold text-sm tracking-widest uppercase opacity-70 mb-4 bg-black text-white px-3 py-1 rounded-sm">Proprietário da Agência</p>
-            
-            <div className="mt-4">
-               <ArvenLogo className="scale-75" />
-            </div>
-            <p className="opacity-60 text-xs font-bold uppercase mt-6">Validade comercial: 15 dias corridos.</p>
-          </div>
-        </div>
       </footer>
-
     </div>
   );
 }

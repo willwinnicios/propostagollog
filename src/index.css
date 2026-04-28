@@ -8,9 +8,16 @@
   --color-gollog: #FF5A00;
   --color-gollog-light: #FF7B33;
   --color-gollog-dark: #CC4800;
+  --color-arven-yellow: #FFE500;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #0d0d0d;
 }
 
 body {
-  background-color: #000;
+  background-color: #0d0d0d;
+  color: #fff;
   overflow-x: hidden;
 }
