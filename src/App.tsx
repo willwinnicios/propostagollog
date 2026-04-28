@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useInView, animate } from 'motion/react';
-import { Target, BarChart3, Video, Send, CheckCircle2, ChevronDown, Handshake, TrendingUp, MonitorSmartphone, ShieldCheck, ArrowRight, PackageOpen, Rocket, Zap, Crosshair } from 'lucide-react';
+import { Target, BarChart3, Video, Send, CheckCircle2, ChevronDown, Handshake, MonitorSmartphone, ShieldCheck, ArrowRight, Rocket, Zap, Crosshair, TrendingUp } from 'lucide-react';
 
 // --- INTERACTIVE COMPONENTS --- //
 
@@ -57,7 +57,7 @@ const SpotlightCard = ({ children, className = "", delay = 0 }: { children: Reac
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] }}
       ref={divRef}
       onMouseMove={handleMouseMove}
@@ -95,7 +95,7 @@ const FadeIn = ({ children, delay = 0, direction = 'up', className = "" }: { chi
     <motion.div
       initial={{ opacity: 0, ...directions[direction] }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 1.4, delay, ease: [0.16, 1, 0.3, 1] }}
       className={`print:opacity-100 print:transform-none ${className}`}
     >
@@ -241,47 +241,80 @@ export default function App() {
       />
       <BackgroundOrbs />
       
-      {/* 1. HERO SECTION (CINEMATIC) */}
-      <Section className="relative overflow-hidden items-start md:items-center text-left md:text-center justify-center bg-[#0d0d0d]">
-        <GridBackground color="rgba(255, 90, 0, 0.05)" />
+      {/* 1. HERO SECTION (NEW PREMIUM DESIGN) */}
+      <Section className="relative overflow-hidden min-h-screen bg-[#0d0d0d] !p-0">
+        {/* Background Decorative Elements */}
+        <div className="absolute inset-0 z-0 opacity-20 overflow-hidden pointer-events-none">
+           <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_30%,_rgba(255,180,0,0.1)_0%,_transparent_50%)]" />
+           <motion.div 
+             initial={{ rotate: -15, x: 200 }}
+             animate={{ rotate: -12, x: 150 }}
+             transition={{ duration: 2, ease: "easeOut" }}
+             className="absolute -right-20 top-0 w-[60%] h-[150%] bg-[#1a1a1a] border-l-4 border-gollog/30 transform origin-top-right hidden lg:block shadow-2xl"
+           />
+        </div>
 
-        <motion.div style={{ y: yContent }} className="max-w-6xl mx-auto w-full z-10 relative print:mt-0 flex flex-col items-center justify-center min-h-[70svh]">
-          <FadeIn delay={0.1} direction="down" className="mb-10 lg:mb-12 relative">
-            <ArvenLogo className="relative z-10" />
-          </FadeIn>
+        <div className="max-w-7xl mx-auto w-full z-10 relative flex flex-col lg:flex-row items-center justify-between min-h-screen px-6 py-20 lg:py-0 gap-16 lg:gap-0">
           
-          <FadeIn delay={0.4} direction="up" className="flex flex-col items-center text-center">
-            <div className="h-px w-24 bg-gradient-to-r from-transparent via-gollog to-transparent mb-10 opacity-50"></div>
-            
-            <h1 className="font-display text-2xl md:text-3xl lg:text-4xl text-slate-400 font-light tracking-[0.2em] md:tracking-[0.4em] uppercase leading-loose">
-              Estratégia de<br className="md:hidden"/>
-              <strong className="text-white font-bold ml-0 md:ml-4 tracking-[0.1em] md:tracking-[0.2em] block md:inline mt-4 md:mt-0 italic">Aceleração B2B</strong>
-            </h1>
-            
-            <div className="mt-12 flex flex-col md:flex-row items-center gap-4">
-              <div className="px-6 py-3 border border-white/10 rounded-full bg-black/40 backdrop-blur-md shadow-2xl">
-                <p className="text-xs md:text-sm font-sans tracking-[0.3em] text-slate-400 uppercase flex items-center gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-gollog animate-pulse"></span>
-                  Foco em <strong className="text-white font-bold ml-1">ALTA PERFORMANCE</strong>
-                </p>
-              </div>
-              <div className="px-5 py-2 border border-gollog/40 rounded-full bg-gollog/10 backdrop-blur-md">
-                 <p className="text-[10px] md:text-xs font-display font-bold tracking-[0.2em] text-gollog uppercase">
-                   Domínio: Rodoviário & Aéreo
-                 </p>
-              </div>
-            </div>
-          </FadeIn>
+          {/* Left Content */}
+          <div className="flex-1 text-left">
+            <FadeIn delay={0.2} direction="right">
+              <h1 className="font-display flex flex-col mb-8">
+                <span className="text-2xl md:text-4xl text-gollog font-bold tracking-[0.2em] uppercase mb-2">Proposta</span>
+                <span className="text-6xl md:text-9xl font-black text-white tracking-tighter leading-none">COMERCIAL</span>
+              </h1>
+              
+              <p className="text-xl md:text-3xl text-slate-300 font-light mb-12 max-w-xl leading-relaxed">
+                Soluções estratégicas que <br className="hidden md:block"/> <span className="text-white font-medium">impulsionam resultados.</span>
+              </p>
 
-          <FadeIn delay={0.7} className="mt-24 print:hidden absolute bottom-0 lg:-bottom-20">
-            <a 
-              href="#desafio"
-              className="flex items-center justify-center w-14 h-14 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/30 transition-all hover:scale-110 text-white/50 hover:text-white"
+              <div className="h-1.5 w-24 bg-gollog mb-16 rounded-full" />
+
+              {/* Icon Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="flex flex-col gap-4">
+                  <Target className="text-gollog" size={32} />
+                  <div>
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Estratégia</p>
+                    <p className="text-xs font-bold text-white uppercase tracking-wider">Personalizada</p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-4 border-l-0 md:border-l border-white/10 md:pl-8">
+                  <TrendingUp className="text-gollog" size={32} />
+                  <div>
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Foco em</p>
+                    <p className="text-xs font-bold text-white uppercase tracking-wider">Resultados</p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-4 border-l-0 md:border-l border-white/10 md:pl-8">
+                  <Handshake className="text-gollog" size={32} />
+                  <div>
+                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Parceria e</p>
+                    <p className="text-xs font-bold text-white uppercase tracking-wider">Confiança</p>
+                  </div>
+                </div>
+              </div>
+            </FadeIn>
+          </div>
+
+          {/* Right Content - Logo Area */}
+          <div className="flex-1 flex justify-center lg:justify-end relative">
+            <FadeIn delay={0.5} direction="left" className="relative">
+              <div className="absolute inset-0 bg-gollog/10 blur-[100px] rounded-full" />
+              <ArvenLogo className="relative z-10 scale-110 md:scale-150 lg:scale-[1.8]" />
+            </FadeIn>
+          </div>
+          
+          <FadeIn delay={1} className="absolute bottom-10 left-1/2 -translate-x-1/2 hidden lg:block">
+            <motion.div 
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="text-white/20"
             >
-              <ChevronDown size={24} />
-            </a>
+              <ChevronDown size={32} />
+            </motion.div>
           </FadeIn>
-        </motion.div>
+        </div>
       </Section>
 
       {/* 2. THE STATUS QUO / PERSUASION SECTION */}
