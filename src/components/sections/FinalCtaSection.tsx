@@ -52,15 +52,40 @@ export default function FinalCtaSection({ scrollYProgress }: any) {
               <ArrowRight className="group-hover:translate-x-2 transition-transform" size={28} />
             </motion.a>
 
-            <div className="mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
-               <div className="flex flex-col items-center md:items-start text-center md:text-left">
-                  <p className="font-display font-black text-xl tracking-tighter text-white">Willian Winnicios Cardoso</p>
-                  <p className="font-sans font-bold text-[10px] tracking-[0.2em] uppercase text-gollog">Proprietário da Arven</p>
+            <div className="mt-24 pt-12 border-t border-white/5 relative">
+               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-gollog/20 to-transparent" />
+               
+               <div className="flex flex-col md:flex-row items-center justify-between gap-10">
+                  <div className="flex flex-col items-center md:items-start text-center md:text-left group cursor-default">
+                     <p className="font-display font-black text-2xl tracking-tighter text-white group-hover:text-gollog transition-colors duration-500">Willian Winnicios Cardoso</p>
+                     <p className="font-sans font-bold text-[10px] tracking-[0.4em] uppercase text-gollog/80 mt-1">Proprietário da Arven</p>
+                  </div>
+                  
+                  <div className="flex flex-col items-center gap-4">
+                    <ArvenLogo className="scale-90 md:scale-100 opacity-100 transition-all duration-500 hover:drop-shadow-[0_0_15px_rgba(255,90,0,0.3)]" />
+                    <div className="flex gap-4">
+                       <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-gollog/20 hover:border-gollog/40 transition-all cursor-pointer">
+                          <Target size={14} className="text-white/60" />
+                       </div>
+                       <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-gollog/20 hover:border-gollog/40 transition-all cursor-pointer">
+                          <BarChart3 size={14} className="text-white/60" />
+                       </div>
+                       <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-gollog/20 hover:border-gollog/40 transition-all cursor-pointer">
+                          <MonitorSmartphone size={14} className="text-white/60" />
+                       </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-center md:items-end gap-2">
+                    <p className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.3em]">
+                       © 2026 Arven Assessoria
+                    </p>
+                    <div className="h-px w-12 bg-white/10" />
+                    <p className="text-slate-600 text-[9px] font-medium uppercase tracking-widest">
+                       All rights reserved
+                    </p>
+                  </div>
                </div>
-               <ArvenLogo className="scale-75 opacity-50 grayscale hover:grayscale-0 transition-all cursor-pointer" />
-               <p className="text-slate-600 text-[10px] font-bold uppercase tracking-widest">
-                  © 2026 Arven Assessoria
-               </p>
             </div>
           </FadeIn>
         </div>
