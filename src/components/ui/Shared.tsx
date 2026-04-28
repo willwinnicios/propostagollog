@@ -19,24 +19,8 @@ export const LightDepthBackground = () => (
 
 export const BackgroundOrbs = () => (
   <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-    <motion.div 
-      animate={{ 
-        x: [0, 100, 0], 
-        y: [0, 50, 0],
-        scale: [1, 1.2, 1]
-      }}
-      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-      className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-gollog/10 blur-[120px] rounded-full"
-    />
-    <motion.div 
-      animate={{ 
-        x: [0, -100, 0], 
-        y: [0, -50, 0],
-        scale: [1, 1.3, 1]
-      }}
-      transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-      className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-500/5 blur-[120px] rounded-full"
-    />
+    <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-gollog/5 blur-[120px] rounded-full" />
+    <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-500/5 blur-[120px] rounded-full" />
   </div>
 );
 
@@ -45,7 +29,7 @@ export const ArvenLogo = ({ className = "", priority = false }: { className?: st
     <img 
       src="/logo.png" 
       alt="Arven Assessoria de Marketing" 
-      className="h-64 md:h-80 lg:h-96 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] brightness-110" 
+      className="h-48 md:h-64 lg:h-80 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] brightness-110" 
       loading={priority ? "eager" : "lazy"}
       decoding={priority ? "sync" : "async"}
       fetchPriority={priority ? "high" : "auto"}
@@ -74,7 +58,7 @@ export const SpotlightCard = ({ children, className = "", delay = 0 }: { childre
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setOpacity(1)}
       onMouseLeave={() => setOpacity(0)}
-      className={`relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.03] backdrop-blur-xl shadow-2xl transition-all duration-500 hover:border-gollog/40 hover:shadow-gollog/5 print:opacity-100 print:transform-none group ${className}`}
+      className={`relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.06] shadow-2xl transition-all duration-500 hover:border-gollog/40 hover:shadow-gollog/5 print:opacity-100 print:transform-none group ${className}`}
     >
       <div
         className="pointer-events-none absolute -inset-px transition-opacity duration-500 opacity-0 group-hover:opacity-100"
@@ -126,7 +110,7 @@ export const Section = ({ children, bg, className = "", id = "" }: { children: R
   return (
     <section id={id} ref={ref} className={`min-h-[100svh] py-20 px-6 md:py-24 md:px-12 lg:px-24 flex flex-col justify-center relative overflow-hidden w-full ${className}`}>
       {bg && <div className="absolute inset-0 z-0">{bg}</div>}
-      <div className="relative z-10 h-full w-full flex flex-col justify-center">
+      <div className="relative z-10 h-full w-full max-w-7xl mx-auto flex flex-col justify-center">
         {children}
       </div>
     </section>

@@ -16,7 +16,7 @@ export default function FinalCtaSection({ scrollYProgress }: any) {
               Oferta com Tempo Limitado
             </div>
             
-            <h2 className="font-display text-5xl md:text-8xl font-black mb-8 tracking-tighter uppercase text-white">
+            <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tighter uppercase text-white">
               Domínio ou <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-gollog to-white">Estagnação?</span>
             </h2>
             

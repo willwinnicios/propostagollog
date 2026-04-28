@@ -45,7 +45,7 @@ export default function HeroSection({ scrollYProgress }: any) {
 
                 <h1 className="font-display flex flex-col mb-4 md:mb-8">
                   <span className="text-lg md:text-4xl text-arven-yellow font-bold tracking-[0.2em] uppercase mb-0 md:mb-2 leading-none">Proposta</span>
-                  <span className="text-5xl md:text-9xl font-black text-white tracking-tighter leading-[0.85] md:leading-none">COMERCIAL</span>
+                  <span className="text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[0.85] md:leading-none">COMERCIAL</span>
                 </h1>
                 
                 <p className="text-base md:text-3xl text-slate-300 font-light mb-6 md:mb-12 max-w-xl leading-relaxed">
