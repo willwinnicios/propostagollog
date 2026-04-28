@@ -63,7 +63,7 @@ export default function App() {
         <HeroSection scrollYProgress={scrollYProgress} />
 
         {/* Content Sections */}
-        <div className="relative z-10 bg-[#0d0d0d] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[2rem] md:rounded-t-[5rem] -mt-10 overflow-hidden">
+        <div className="relative z-10 bg-[#0d0d0d] shadow-[0_-20px_50px_rgba(0,0,0,0.5)] rounded-t-[2rem] md:rounded-t-[5rem] overflow-hidden">
           <StatusQuoSection />
           <StrategySection />
           <DeliverablesSection />
