@@ -124,11 +124,11 @@ export const Section = ({ children, bg, className = "", id = "" }: { children: R
   const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
 
   return (
-    <section id={id} ref={ref} className={`min-h-[100svh] py-20 px-6 md:py-24 md:px-12 lg:px-24 flex flex-col justify-center relative overflow-hidden ${className}`}>
+    <section id={id} ref={ref} className={`min-h-[100svh] py-20 px-6 md:py-24 md:px-12 lg:px-24 flex flex-col justify-center relative overflow-hidden w-full ${className}`}>
       {bg && <div className="absolute inset-0 z-0">{bg}</div>}
-      <motion.div style={{ y }} className="relative z-10 h-full w-full flex flex-col justify-center">
+      <div className="relative z-10 h-full w-full flex flex-col justify-center">
         {children}
-      </motion.div>
+      </div>
     </section>
   );
 };

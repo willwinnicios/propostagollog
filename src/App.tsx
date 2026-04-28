@@ -29,7 +29,7 @@ export default function App() {
       {/* Floating Header (Menu) */}
       <motion.header 
         style={{ opacity: headerOpacity, y: headerY }}
-        className="fixed top-0 left-0 right-0 z-[90] bg-[#141414] border-b border-white/10 shadow-xl md:top-4 md:left-8 md:right-8 md:rounded-3xl overflow-hidden"
+        className="fixed top-0 left-0 right-0 z-[90] bg-[#141414] border-b border-white/10 shadow-xl md:top-4 md:left-1/2 md:-translate-x-1/2 md:w-[calc(100%-4rem)] md:max-w-7xl md:rounded-3xl overflow-hidden"
       >
         <div className="relative z-10 px-4 py-3 md:px-6 md:py-4 flex items-center justify-between">
           <div className="flex items-center gap-3 md:gap-5">
