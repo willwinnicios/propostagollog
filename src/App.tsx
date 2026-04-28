@@ -9,6 +9,14 @@ const GridBackground = ({ color = "rgba(255, 90, 0, 0.05)" }: { color?: string }
        style={{ backgroundImage: `radial-gradient(${color} 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
 );
 
+const LightDepthBackground = () => (
+  <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+    <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] bg-gollog/5 rounded-full blur-[120px]" />
+    <div className="absolute bottom-[-20%] right-[-10%] w-[80%] h-[80%] bg-slate-400/20 rounded-full blur-[150px]" />
+    <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(#00000008 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+  </div>
+);
+
 const BackgroundOrbs = () => (
   <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
     <motion.div 
@@ -35,7 +43,7 @@ const BackgroundOrbs = () => (
 const ArvenLogo = ({ className = "", priority = false }: { className?: string, priority?: boolean }) => (
   <div className={`flex flex-col items-center select-none ${className}`}>
     <img 
-      src="/logo.webp" 
+      src="/logo.png" 
       alt="Arven Assessoria de Marketing" 
       className="h-64 md:h-80 lg:h-96 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,0.1)] brightness-110" 
       loading={priority ? "eager" : "lazy"}
@@ -343,8 +351,8 @@ export default function App() {
       </Section>
 
       {/* 2. THE STATUS QUO / PERSUASION SECTION */}
-      <Section id="desafio" className="bg-[#f8f9fa] text-black relative border-t border-black/5 selection:bg-gollog selection:text-white">
-        <GridBackground color="rgba(0, 0, 0, 0.02)" />
+      <Section id="desafio" className="bg-[#f0f2f5] text-black relative border-t border-black/5 selection:bg-gollog selection:text-white overflow-hidden">
+        <LightDepthBackground />
         <div className="max-w-6xl mx-auto w-full relative z-10">
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div className="relative z-10">
@@ -454,8 +462,8 @@ export default function App() {
       </Section>
 
       {/* 4. DELIVERABLES (Bento Grid) */}
-      <Section className="bg-[#f8f9fa] text-black relative border-t border-black/5 selection:bg-gollog selection:text-white">
-        <GridBackground color="rgba(0, 0, 0, 0.02)" />
+      <Section className="bg-[#f0f2f5] text-black relative border-t border-black/5 selection:bg-gollog selection:text-white overflow-hidden">
+        <LightDepthBackground />
         <div className="max-w-7xl mx-auto w-full relative z-10">
           <FadeIn className="mb-16">
             <div className="flex items-center gap-4 mb-4">
