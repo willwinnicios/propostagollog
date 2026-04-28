@@ -31,15 +31,15 @@ export default function HeroSection({ scrollYProgress }: any) {
           </div>
         }
       >
-        <div className="max-w-7xl mx-auto w-full z-10 relative flex flex-col items-start justify-center min-h-[95svh] px-6 pt-20 pb-24 lg:flex-row lg:items-center lg:justify-between lg:py-0">
+        <div className="max-w-7xl mx-auto w-full z-10 relative flex flex-col items-center justify-start min-h-[95svh] px-6 pt-10 pb-20 lg:flex-row lg:items-center lg:justify-between lg:py-0">
           
-          <div className="text-left w-full lg:flex-1">
-            <FadeIn delay={0.2} direction="right">
-              <div className="flex flex-col items-start">
+          <div className="text-center w-full lg:text-left lg:flex-1">
+            <FadeIn delay={0.2} direction="up">
+              <div className="flex flex-col items-center lg:items-start">
                 
-                {/* Logo - Integrated into the main stack */}
-                <div className="mb-10 lg:mb-16">
-                  <ArvenLogo className="scale-[0.6] md:scale-125 lg:scale-[1.8] origin-left" priority={true} />
+                {/* Logo - Moved higher and centered */}
+                <div className="mb-8 lg:mb-16">
+                  <ArvenLogo className="scale-[0.55] md:scale-125 lg:scale-[1.8]" priority={true} />
                 </div>
 
                 <h1 className="font-display flex flex-col mb-4 md:mb-8">
@@ -47,33 +47,33 @@ export default function HeroSection({ scrollYProgress }: any) {
                   <span className="text-5xl md:text-9xl font-black text-white tracking-tighter leading-[0.85] md:leading-none">COMERCIAL</span>
                 </h1>
                 
-                <p className="text-lg md:text-3xl text-slate-300 font-light mb-6 md:mb-12 max-w-xl leading-relaxed">
+                <p className="text-base md:text-3xl text-slate-300 font-light mb-6 md:mb-12 max-w-xl leading-relaxed">
                   Soluções estratégicas que <br className="hidden md:block"/> <span className="text-white font-medium">impulsionam resultados.</span>
                 </p>
 
-                <div className="h-1 w-16 md:h-1.5 md:w-24 bg-arven-yellow mb-8 md:mb-16 rounded-full" />
+                <div className="h-1 w-16 md:h-1.5 md:w-24 bg-arven-yellow mb-8 md:mb-16 rounded-full mx-auto lg:mx-0" />
 
                 {/* Icon Grid */}
-                <div className="grid grid-cols-3 gap-2 md:gap-8 w-full">
-                  <div className="flex flex-col items-start gap-2 md:gap-4">
+                <div className="grid grid-cols-3 gap-2 md:gap-8 w-full max-w-sm lg:max-w-none">
+                  <div className="flex flex-col items-center lg:items-start gap-2 md:gap-4">
                     <Target className="text-arven-yellow" size={20} md:size={32} />
-                    <div className="text-left">
+                    <div className="text-center lg:text-left">
                       <p className="text-[7px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Estratégia</p>
-                      <p className="text-[9px] md:text-xs font-bold text-white uppercase tracking-wider">Personalizada</p>
+                      <p className="text-[8px] md:text-xs font-bold text-white uppercase tracking-wider">Personalizada</p>
                     </div>
                   </div>
-                  <div className="flex flex-col items-start gap-2 md:gap-4 border-l border-white/10 pl-3 md:pl-8">
+                  <div className="flex flex-col items-center lg:items-start gap-2 md:gap-4 border-l border-white/10 px-1 lg:px-0 lg:pl-8">
                     <TrendingUp className="text-arven-yellow" size={20} md:size={32} />
-                    <div className="text-left">
+                    <div className="text-center lg:text-left">
                       <p className="text-[7px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Foco em</p>
-                      <p className="text-[9px] md:text-xs font-bold text-white uppercase tracking-wider">Resultados</p>
+                      <p className="text-[8px] md:text-xs font-bold text-white uppercase tracking-wider">Resultados</p>
                     </div>
                   </div>
-                  <div className="flex flex-col items-start gap-2 md:gap-4 border-l border-white/10 pl-3 md:pl-8">
+                  <div className="flex flex-col items-center lg:items-start gap-2 md:gap-4 border-l border-white/10 px-1 lg:px-0 lg:pl-8">
                     <Handshake className="text-arven-yellow" size={20} md:size={32} />
-                    <div className="text-left">
+                    <div className="text-center lg:text-left">
                       <p className="text-[7px] md:text-[10px] font-black text-slate-500 uppercase tracking-widest leading-tight">Parceria e</p>
-                      <p className="text-[9px] md:text-xs font-bold text-white uppercase tracking-wider">Confiança</p>
+                      <p className="text-[8px] md:text-xs font-bold text-white uppercase tracking-wider">Confiança</p>
                     </div>
                   </div>
                 </div>
