@@ -59,8 +59,9 @@ export default function ComparisonSection({ scrollYProgress }: any) {
                       <li className="flex gap-3 text-slate-300 font-medium">
                          <span className="text-gollog font-bold">✓</span> Determinação e constância diária
                       </li>
-                      <li className="flex gap-3 text-slate-300 font-medium">
-                         <span className="text-gollog font-bold">✓</span> <strong className="text-white">O Catalisador Estratégico</strong> que faltava para a escala
+                      <li className="flex gap-3 text-slate-300 font-medium items-start">
+                         <span className="text-gollog font-bold shrink-0 mt-1">✓</span> 
+                         <span><strong className="text-white">O Método de Escala</strong> que faltava para o seu negócio</span>
                       </li>
                       <li className="flex gap-3 text-slate-300 font-medium">
                          <span className="text-gollog font-bold">✓</span> Estratégia multicanal (Road & Air)
